@@ -33,7 +33,7 @@
     <nav class="humberger__menu__nav mobile-menu">
         <ul>
             <li class="active"><a href="{{route('home')}}">Home</a></li>
-            <li><a href="">Shop</a></li>
+            <li><a href="{{route('shop')}}">Shop</a></li>
             <li><a href="">Pages</a>
                 <ul class="header__menu__dropdown">
                     <li><a href="">Shop Details</a></li>
@@ -131,7 +131,7 @@
                 <nav class="header__menu">
                     <ul>
                         <li class="active"><a href="{{route('home')}}">Home</a></li>
-                        <li><a href="">Shop</a></li>
+                        <li><a href="{{route('shop')}}">Shop</a></li>
                         <li><a href="">Pages</a>
                             <ul class="header__menu__dropdown">
                                 <li><a href="">Shop Details</a></li>
@@ -227,11 +227,8 @@
     <script>
         $(document).ready(function () {
             $('.cart').click(function () {
-
                 alert("vui lòng đăng nhập tài khoản");
-
             });
         });
-
     </script>
 </section>

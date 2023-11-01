@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +30,4 @@ Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout')
 
 // trang chu
 Route::get('', [ProductController::class, 'showProduct'])->name('home');
-
+Route::get('/shop', [ShopController::class, 'show'])->name('shop');
