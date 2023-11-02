@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
@@ -34,3 +35,8 @@ Route::get('', [ProductController::class, 'showProduct'])->name('home');
 Route::get('/shop', [ShopController::class, 'show'])->name('shop');
 
 Route::get('/shopdetail/{id}', [ShopDetailController::class, 'showId'])->name('shopId');
+
+Route::post('/cart/add', [CartController::class, 'addCart'] )->name('cart.add');
+Route::get('/cart/show', [CartController::class,'CartShow'])->name('cart.show');
+Route::get('/cart/add/{id}', [CartController::class, 'deleteCart'] )->name('cart.delete');
+Route::get('/cart/edit/{id}', [CartController::class, 'editCart'] )->name('cart.edit');
