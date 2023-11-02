@@ -1,12 +1,16 @@
 @extends('front.layouts.master')
 @section('main-container')
     <form action="shop">
-        <section style="height: 330px;" class="breadcrumb-section set-bg" data-setbg="https://cdn.hoanghamobile.com/i/home/Uploads/2023/05/06/web1.jpg">
+        <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="breadcrumb__text">
-
+                            <h2>Organi Shop</h2>
+                            <div class="breadcrumb__option">
+                                <a href="./index.html">Home</a>
+                                <span>Shop</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -128,7 +132,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            @foreach($products as $value)
+                            @foreach($search as $value)
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg" data-setbg="{{$value->images[0]->url}}">
@@ -149,7 +153,7 @@
                             @endforeach
                         </div>
                         <div>
-                            {!! $products->appends(request()->all())->links('pagination::bootstrap-5',) !!}
+                            {!! $search->appends(request()->all())->links('pagination::bootstrap-5',) !!}
                         </div>
                     </div>
                 </div>
