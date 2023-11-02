@@ -45,15 +45,17 @@ class CartController
         $cart = Cart::where('user_id', $user->id)->first();
 
         if ($cart != null) {
+
             $listCartItem = CartItem::with('product')->where('cart_id', $cart->id)->get();
             $countProducts = $listCartItem->count();
             foreach ($listCartItem as $item) {
                 $subtotal = $item->product->price * $item->quantity;
                 $total += $subtotal;
             }
+            session()->put('countProducts', $countProducts);
+
         }
         session()->put('total', $total);
-        session()->put('countProducts', $countProducts);
         return view('front.Carts', ['listCartItem' => $listCartItem, 'total' => $total]);
         return view('front.index', compact('total','countProducts'));
 

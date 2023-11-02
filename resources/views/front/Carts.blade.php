@@ -70,9 +70,9 @@
                             </tbody>
                                 @endforeach
 
-                            @endif
 
-                            @if($listCartItem === null)
+
+                            @else($listCartItem === null)
                                 <p>không có sản phẩm nào ở trong giỏ hàng</p>
                             @endif
 
