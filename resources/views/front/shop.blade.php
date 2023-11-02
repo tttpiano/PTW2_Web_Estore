@@ -140,7 +140,7 @@
                                         </div>
                                         <div class="product__item__text">
                                             <h6>
-                                                <a href="{{ route('shopId', ['id' => $value->id]) }}">{{$value->name}}</a>
+                                                <a href="">{{$value->name}}</a>
                                             </h6>
                                             <h5>{{ number_format($value->price, 0)}}</h5>
                                         </div>
