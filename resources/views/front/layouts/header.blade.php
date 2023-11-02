@@ -33,7 +33,7 @@
     <nav class="humberger__menu__nav mobile-menu">
         <ul>
             <li class="active"><a href="{{route('home')}}">Home</a></li>
-            <li><a href="{{route('shop')}}">Shop</a></li>
+            <li><a href="{{route("shop")}}">Shop</a></li>
             <li><a href="">Pages</a>
                 <ul class="header__menu__dropdown">
                     <li><a href="">Shop Details</a></li>
@@ -131,7 +131,7 @@
                 <nav class="header__menu">
                     <ul>
                         <li class="active"><a href="{{route('home')}}">Home</a></li>
-                        <li><a href="{{route('shop')}}">Shop</a></li>
+                        <li><a href="{{ route('shop') }}">Shop</a></li>
                         <li><a href="">Pages</a>
                             <ul class="header__menu__dropdown">
                                 <li><a href="">Shop Details</a></li>
@@ -183,13 +183,19 @@
                         <i class="fa fa-bars"></i>
                         <span>All Categories</span>
                     </div>
-
+                    <ul>
+                        @foreach($brands as $value)
+                            <li>
+                                <a href="/shop?brand%5B{{$value -> id}}%5D=on&sort=asc">{{$value -> name}}</a>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="" method="GET">
+                        <form action="{{route('search')}}" method="GET">
                             <input type="text" name="key" placeholder="What do yo u need?">
                             <button type="submit" class="site-btn">SEARCH</button>
                         </form>
@@ -221,8 +227,11 @@
     <script>
         $(document).ready(function () {
             $('.cart').click(function () {
+
                 alert("vui lòng đăng nhập tài khoản");
+
             });
         });
+
     </script>
 </section>

@@ -57,7 +57,7 @@
                                             </div>
                                         </td>
                                         <td class="shoping__cart__total">
-                                            {{ number_format($value->product->price * $value->quantity+1)}}đ
+                                            {{ number_format($value->product->price * $value->quantity)}}đ
                                         </td>
                                         <td class="shoping__cart__item__close" data-product-id="{{$value->id}}">
                                             <a href="{{route('cart.delete',['id' => $value->id])}}"><span
@@ -70,9 +70,9 @@
                             </tbody>
                                 @endforeach
 
-                            @endif
 
-                            @if($listCartItem === null)
+
+                            @else($listCartItem === null)
                                 <p>không có sản phẩm nào ở trong giỏ hàng</p>
                             @endif
 

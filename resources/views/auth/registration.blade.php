@@ -33,7 +33,7 @@
                             <span class="text-danger">{{ $errors->first('avatar') }}</span>
                         @endif
                     </div>
-                    <div class="form-group mb-3 inputbox" style="    margin: 11px 0 !important;">
+                    <div class="form-group mb-3 inputbox" style=" margin: 11px 0 !important;">
                         <input type="password" placeholder="Password" id="password" class="form-control" name="password"
                                required>
                         @if ($errors->has('password'))
