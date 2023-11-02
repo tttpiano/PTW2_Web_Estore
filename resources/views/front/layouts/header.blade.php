@@ -183,13 +183,7 @@
                         <i class="fa fa-bars"></i>
                         <span>All Categories</span>
                     </div>
-                    <ul>
-                        @foreach($brands as $value)
-                            <li>
-                                <a href="/shop?brand%5B{{$value -> id}}%5D=on&sort=asc">{{$value -> name}}</a>
-                            </li>
-                        @endforeach
-                    </ul>
+
                 </div>
             </div>
             <div class="col-lg-9">
