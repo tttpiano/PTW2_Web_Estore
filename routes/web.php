@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
 
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']);
 Route::get('login', [CustomAuthController::class, 'index'])->name('login');
@@ -43,3 +44,14 @@ Route::get('/cart/show', [CartController::class,'CartShow'])->name('cart.show');
 Route::get('/cart/add/{id}', [CartController::class, 'deleteCart'] )->name('cart.delete');
 Route::get('/cart/edit/{id}', [CartController::class, 'editCart'] )->name('cart.edit');
 Route::post('/shopdetail/{id}', [ReviewController::class, 'store'])->name('ratings.store')->middleware('auth');
+
+
+/////////////////// admin /////////////////////
+Route::get('/admin', [AdminController::class, 'showadmin'])->name('admin_home');
+Route::get('/admin/product', [AdminController::class, 'showproduct'])->name('admin_product');
+Route::get('/admin/product/add', [AdminController::class, 'addproduct'])->name('add_product');
+Route::get('/admin/product/edit', [AdminController::class, 'editproduct'])->name('edit_product');
+
+Route::get('/admin/product/brand', [AdminController::class, 'brandproduct'])->name('brand_product');
+Route::get('/admin/product/ram', [AdminController::class, 'ramdproduct'])->name('ram_product');
+Route::get('/admin/product/rom', [AdminController::class, 'romproduct'])->name('rom_product');
