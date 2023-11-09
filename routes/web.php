@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
 
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']);
 Route::get('login', [CustomAuthController::class, 'index'])->name('login');
@@ -43,3 +44,31 @@ Route::get('/cart/show', [CartController::class,'CartShow'])->name('cart.show');
 Route::get('/cart/add/{id}', [CartController::class, 'deleteCart'] )->name('cart.delete');
 Route::get('/cart/edit/{id}', [CartController::class, 'editCart'] )->name('cart.edit');
 Route::post('/shopdetail/{id}', [ReviewController::class, 'store'])->name('ratings.store')->middleware('auth');
+
+
+/////////////////// admin /////////////////////
+Route::get('/admin', [AdminController::class, 'showadmin'])->name('admin_home');
+Route::get('/admin/product', [AdminController::class, 'showproduct'])->name('admin_product');
+Route::get('/admin/product/add', [AdminController::class, 'addproduct'])->name('add_product');
+Route::get('/admin/product/edit', [AdminController::class, 'editproduct'])->name('edit_product');
+
+// brand
+Route::get('/admin/product/brand', [AdminController::class, 'brandproduct'])->name('brand_product');
+Route::get('/admin/product/addbrand', [AdminController::class, 'addbrand'])->name('add_brand');
+Route::get('/admin/product/editbrand', [AdminController::class, 'editbrand'])->name('edit_brand');
+
+// ram
+Route::get('/admin/product/ram', [AdminController::class, 'ramproduct'])->name('ram_product');
+Route::get('/admin/product/addram', [AdminController::class, 'addram'])->name('add_ram');
+Route::get('/admin/product/editram', [AdminController::class, 'editram'])->name('edit_ram');
+
+
+// bo nho trong
+Route::get('/admin/product/rom', [AdminController::class, 'romproduct'])->name('rom_product');
+Route::get('/admin/product/addrom', [AdminController::class, 'addrom'])->name('add_rom');
+Route::get('/admin/product/editrom', [AdminController::class, 'editrom'])->name('edit_rom');
+
+
+
+//admin
+Route::post('/admin/product/addbrand/insert', [AdminController::class, 'insertBrand'])->name('add.brand');

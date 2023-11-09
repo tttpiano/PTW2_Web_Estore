@@ -22,8 +22,10 @@ class ProductController extends Controller
     // product
     public function showProduct()
     {
+        // khai báo biến để lấy danh sách sản phẩm 
         $product = Product::all();
         $brands = Brand::all();
+        
         $sort = Product::orderBy('price', 'desc')->take(8)->get();
         $latestProducts = Product::orderBy('id', 'desc')->take(3)->get();
         $latestProducts2 = Product::orderBy('id', 'desc')->skip(3)->take(3)->get();
