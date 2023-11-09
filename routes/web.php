@@ -52,6 +52,23 @@ Route::get('/admin/product', [AdminController::class, 'showproduct'])->name('adm
 Route::get('/admin/product/add', [AdminController::class, 'addproduct'])->name('add_product');
 Route::get('/admin/product/edit', [AdminController::class, 'editproduct'])->name('edit_product');
 
+// brand
 Route::get('/admin/product/brand', [AdminController::class, 'brandproduct'])->name('brand_product');
-Route::get('/admin/product/ram', [AdminController::class, 'ramdproduct'])->name('ram_product');
+Route::get('/admin/product/addbrand', [AdminController::class, 'addbrand'])->name('add_brand');
+Route::get('/admin/product/editbrand', [AdminController::class, 'editbrand'])->name('edit_brand');
+
+// ram
+Route::get('/admin/product/ram', [AdminController::class, 'ramproduct'])->name('ram_product');
+Route::get('/admin/product/addram', [AdminController::class, 'addram'])->name('add_ram');
+Route::get('/admin/product/editram', [AdminController::class, 'editram'])->name('edit_ram');
+
+
+// bo nho trong
 Route::get('/admin/product/rom', [AdminController::class, 'romproduct'])->name('rom_product');
+Route::get('/admin/product/addrom', [AdminController::class, 'addrom'])->name('add_rom');
+Route::get('/admin/product/editrom', [AdminController::class, 'editrom'])->name('edit_rom');
+
+
+
+//admin
+Route::post('/admin/product/addbrand/insert', [AdminController::class, 'insertBrand'])->name('add.brand');

@@ -18,6 +18,9 @@ class AdminController
     {
         return view('front.admins.product');
     }
+
+
+    //------------------------
     public function addproduct()
     {
         return view('front.admins.product_add');
@@ -26,16 +29,65 @@ class AdminController
     {
         return view('front.admins.product_edit');
     }
-    public function brand()
+
+    //------------------------ brand
+
+
+    public function brandproduct()
     {
-        return view('front.admins.categery.brand');
+        $brand = Brand::all();
+        return view('front.admins.categery.brand', ['brand' => $brand]);
+
     }
-    public function ram()
+
+ 
+    // them xoo sua bran
+    public function addbrand()
+    {
+        return view('front.admins.categery.brand_add');
+    }
+    public function editbrand()
+    {
+        return view('front.admins.categery.brand_edit');
+    }
+
+    // ram
+    public function ramproduct()
     {
         return view('front.admins.categery.ram');
     }
-    public function rom()
+
+    public function addram()
+    {
+        return view('front.admins.categery.ram_add');
+    }
+    public function editram()
+    {
+        return view('front.admins.categery.ram_edit');
+    }
+
+    // bo nho trong
+    public function romproduct()
     {
         return view('front.admins.categery.rom');
     }
+    public function addrom()
+    {
+        return view('front.admins.categery.rom_add');
+    }
+    public function editrom()
+    {
+        return view('front.admins.categery.rom_edit');
+    }
+
+    // viet ham inseert cho brandaad
+
+    public function insertBrand(Request $request){
+         Brand::create([
+            'name' => $request->input('name'),
+         ]);
+ 
+         return redirect()->back()->with('success', 'Brand added successfully');
+    }
+
 }

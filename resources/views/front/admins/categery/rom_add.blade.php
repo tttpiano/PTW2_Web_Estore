@@ -10,25 +10,23 @@
 
                 <div class="card mb-4">
                     <!-- Account -->
-                    
+                  
                     <hr class="my-0" />
                     <div class="card-body">
                         <form id="formAccountSettings" method="POST">
                             <div class="row">
-                                
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Số thứ tự</label>
-                                    <input class="form-control" type="text" id="openratingSystems" name="openratingSystems" placeholder="STT" autofocus />
-                                </div>
-                               
                               
+                               
                                 <div class="mb-3 col-md-12">
-                                    <label class="form-label">Name</label>
-                                    <input  class="form-control" type="text" id="name" name="name" placeholder="Tên Hãng" autofocus />
+                                   <label class="form-label">Bộ nhớ trong</label>
+                                    <select class="form-select" name="Brandll" id="Brandll">
+                                        <option value="1">32 GB</option>
+                                        <option value="2">64 GB</option>
+                                        <option value="3">128 GB</option>
+                                        
+                                    </select>
                                 </div>
-                               
-                                
-                               
+                             
                             </div>
                             <div class="mt-2" style="text-align: right">
                                 <button type="reset" class="btn btn-outline-secondary">Reset</button>

@@ -19,7 +19,7 @@
 
             <!-- Dashboard -->
             <li class="menu-item">
-                <a href="" class="menu-link">
+                <a href="{{route("admin_home")}}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                     <div data-i18n="Analytics">Trang Chủ</div>
                 </a>
@@ -36,7 +36,7 @@
             </a>
             <ul class="menu-sub">
               <li class="menu-item">
-                <a href="{{route("brand_product")}}" " class="menu-link">
+                <a href="{{route("brand_product")}}" class="menu-link">
                   <div data-i18n="Vertical Form">Hãng</div>
                 </a>
               </li>

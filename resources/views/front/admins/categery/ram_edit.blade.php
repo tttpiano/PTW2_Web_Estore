@@ -10,7 +10,7 @@
 
                 <div class="card mb-4">
                     <!-- Account -->
-                    
+                  
                     <hr class="my-0" />
                     <div class="card-body">
                         <form id="formAccountSettings" method="POST">
@@ -21,12 +21,18 @@
                                     <input class="form-control" type="text" id="openratingSystems" name="openratingSystems" placeholder="STT" autofocus />
                                 </div>
                                
-                              
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Name</label>
-                                    <input  class="form-control" type="text" id="name" name="name" placeholder="Tên Hãng" autofocus />
-                                </div>
                                
+                                <div class="mb-3 col-md-12">
+                                    <label class="form-label">Size Ram</label>
+                                    <select class="form-select" name="Brandll" id="Brandll">
+                                        <option value="1">2 GB</option>
+                                        <option value="2">3 GB</option>
+                                        <option value="3">4 GB</option>
+                                        
+                                        
+                                    </select>
+                                </div>
+                                
                                 
                                
                             </div>

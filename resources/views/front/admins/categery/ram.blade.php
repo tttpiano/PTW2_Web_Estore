@@ -27,36 +27,33 @@
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header" style="background-color: #696cff; border-color: #696cff; color:#fff">
-                BRAND</h5>
+                RAM</h5>
             <div class="add">
-                <a class="btn btn-success" href="{{route("add_brand")}}"">Add</a>
+                <a class="btn btn-success" href="{{route("add_ram")}}"">Add</a>
             </div>
             <div class="table-responsive text-nowrap content1">
                 <table class="table">
                     <thead>
                         <tr class="color_tr">
                             <th>STT</th>
+                           
+                            <th>Size RAM</th>
                           
-                            <th>Name</th>
-                       
+                        
                           
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        <?php
-            $coun = 1;
-                        ?>
-                        @foreach($brand as $item)
-
                         <tr>
-                            <td><?php echo $coun;  ?></td>
-                         
-                            <td>{{$item->name}}</td>
-                            
+                            <td>1</td>
+                           
+                            <td>2 GB</td>
+                           
+                           
                           
                             <td>
-                                <a href="{{route("edit_brand")}}"" class="btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
+                                <a href="{{route("edit_ram")}}"" class="btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
                                 <form id="delete-form" action="" method="POST" style="display: inline-block;">
 
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">Xoá
@@ -84,10 +81,6 @@
                                 </form>
                             </td>
                         </tr>
-                        <?php
-                        $coun++;
-                        ?>
-                        @endforeach
 
                     </tbody>
                 </table>
