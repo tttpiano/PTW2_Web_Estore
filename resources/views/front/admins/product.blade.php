@@ -49,18 +49,25 @@
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
+                        <?php
+                        $currentPage = $sDetail->currentPage();
+                        $coun = ($currentPage - 1) * $sDetail->perPage() + 1;
+                        ?>
+                        @foreach($sDetail as $item )
                         <tr>
-                            <td>1</td>
-                            <td>sp1</td>
+                            <td>{{ $coun++ }}</td>
+                            <td>{{$item->name}}</td>
                             <td>
-                                <img style="width: 100px;" src="" alt="Image">
+                                <img style="width: 100px;" src="{{$item->images[0]->url}}" alt="Image">
                             </td>
-                            <td>mo ta sp</td>
-                            <td>1234 vnd</td>
-                            <td>Android</td>
-                            <td>Apple</td>
-                            <td>2 GB</td>
-                            <td>32 GB</td>
+                            <td>{{ \Illuminate\Support\Str::limit($item->description, 20) }}</td>
+                            <td>{{ number_format($item->price, 0, ',', '.') }} VND</td>
+                            <td>{{$item->openratingSystems}}</td>
+                            
+                            <td>{{ optional($item->brand)->name }}</td>
+                            <td>{{ optional($item->ram)->size }}</td>
+                            <td>{{ optional($item->internalMemory)->size }}</td>
+
                             <td>
                                 <a href="{{route('edit_product')}}" class="btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
 
@@ -91,12 +98,14 @@
                                 </form>
                             </td>
                         </tr>
+                        @endforeach
 
                     </tbody>
                 </table>
             </div>
-        </div>
 
+        </div>
+        {!! $sDetail->links('pagination::bootstrap-5',) !!}
 
     </div>
 </div>

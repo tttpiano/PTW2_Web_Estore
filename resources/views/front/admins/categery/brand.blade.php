@@ -24,6 +24,13 @@
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
+        @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header" style="background-color: #696cff; border-color: #696cff; color:#fff">
@@ -31,68 +38,72 @@
             <div class="add">
                 <a class="btn btn-success" href="{{route("add_brand")}}"">Add</a>
             </div>
-            <div class="table-responsive text-nowrap content1">
-                <table class="table">
-                    <thead>
-                        <tr class="color_tr">
-                            <th>STT</th>
-                          
-                            <th>Name</th>
-                       
-                          
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                        <?php
-            $coun = 1;
-                        ?>
-                        @foreach($brand as $item)
+            <div class=" table-responsive text-nowrap content1">
+                    <table class="table">
+                        <thead>
+                            <tr class="color_tr">
+                                <th>STT</th>
 
-                        <tr>
-                            <td><?php echo $coun;  ?></td>
-                         
-                            <td>{{$item->name}}</td>
-                            
-                          
-                            <td>
-                                <a href="{{route("edit_brand")}}"" class="btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
-                                <form id="delete-form" action="" method="POST" style="display: inline-block;">
+                                <th>Name</th>
 
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">Xoá
-                                    </button>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Xoa San Pham</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Bạn có muốn xoá <strong><b></b></strong>
-                                                    này?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng
-                                                    </button>
-                                                    <button type="submit" class="btn btn-danger">Xoá</button>
+
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            <?php
+                            $currentPage = $brand->currentPage();
+                            $coun = ($currentPage - 1) * $brand->perPage() + 1;
+                            ?>
+                            @foreach($brand as $item)
+
+                            <tr>
+                                <td>{{ $coun++ }}</td>
+
+                                <td>{{$item->name}}</td>
+
+
+                                <td>
+                                    <a href="{{route("edit_brand",$item->id)}}"" class=" btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
+                                    <form id="delete-form" action="{{route('delete.brand', $item->id) }}" method="POST" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <!-- note  -->
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{$item->id}}">Xoá
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="delete{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Xoa San Pham</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Bạn có muốn xoá <strong><b>{{$item->name}}</b></strong>
+                                                        này?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng
+                                                        </button>
+                                                        <button type="submit" class="btn btn-danger">Xoá</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php
-                        $coun++;
-                        ?>
-                        @endforeach
+                                    </form>
+                                </td>
+                            </tr>
 
-                    </tbody>
-                </table>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+
+
             </div>
         </div>
+        {!! $brand->links('pagination::bootstrap-5',) !!}
 
 
     </div>

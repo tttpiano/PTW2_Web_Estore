@@ -22,6 +22,13 @@
 </nav>
 <!-- Content wrapper -->
 <div class="content-wrapper">
+    @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Basic Bootstrap Table -->
@@ -31,61 +38,67 @@
             <div class="add">
                 <a class="btn btn-success" href="{{route("add_rom")}}"">Add</a>
             </div>
-            <div class="table-responsive text-nowrap content1">
-                <table class="table">
-                    <thead>
-                        <tr class="color_tr">
-                            <th>STT</th>
-                           
-                            <th>Bộ nhớ trong</th>
-                         
-                          
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                        <tr>
-                            <td>1</td>
-                           
-                            <td>32 GB</td>
-                          
-                          
-                            <td>
-                                <a href="{{route("edit_rom")}}"" class="btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
-                                <form id="delete-form" action="" method="POST" style="display: inline-block;">
+            <div class=" table-responsive text-nowrap content1">
+                    <table class="table">
+                        <thead>
+                            <tr class="color_tr">
+                                <th>STT</th>
 
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">Xoá
-                                    </button>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Xoa San Pham</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Bạn có muốn xoá <strong><b></b></strong>
-                                                    này?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng
-                                                    </button>
-                                                    <button type="submit" class="btn btn-danger">Xoá</button>
+                                <th>Bộ nhớ trong</th>
+
+
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            <?php
+                            $currentPage = $rom->currentPage();
+                            $coun = ($currentPage - 1) * $rom->perPage() + 1;
+                            ?>
+                            @foreach($rom as $item)
+                            <tr>
+                                <td>{{ $coun++ }}</td>
+                                <td>{{$item->size}}</td>
+                                <td>
+                                    <a href="{{route("edit_rom",$item->id)}}"" class=" btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
+                                    <form id="delete-form" action="{{ route('delete.rom', $item->id) }}" method="POST" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <!-- note  -->
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{$item->id}}">Xoá
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="delete{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Xoa San Pham</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Bạn có muốn xoá <strong><b>{{$item->size}}</b></strong>
+                                                        này?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng
+                                                        </button>
+                                                        <button type="submit" class="btn btn-danger">Xoá</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
+                                    </form>
+                                </td>
+                            </tr>
 
-                    </tbody>
-                </table>
+                            @endforeach
+
+                        </tbody>
+                    </table>
             </div>
         </div>
 
-
+        {!! $rom->links('pagination::bootstrap-5',) !!}
     </div>
 </div>
 <!-- Button trigger modal -->
