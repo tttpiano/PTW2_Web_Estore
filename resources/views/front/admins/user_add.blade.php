@@ -3,6 +3,9 @@
 
 <div class="content-wrapper">
     <!-- Content -->
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
@@ -10,43 +13,26 @@
 
                 <div class="card mb-4">
                     <!-- Account -->
-                    <form method="post" enctype="multipart/form-data" action="{{ route('img.upload') }}">
-                        @csrf
-                        <div class="card-body">
-                            <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                @if($message = Session::get('success'))
-                                    <img src="{{ asset('storage/img/'.Session::get('images')) }}" alt="user-avatar" class="d-block rounded img_edit" height="100" width="100" id="fileUpload" />
-                                @else
-                                    <img src="{{ asset('storage/img/uptoload.jpg')}}" alt="user-avatar" class="d-block rounded img_edit" height="100" width="100" id="fileUpload" />
-                                @endif
-                                <div class="button-wrapper">
-
-                                    <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                                        <span class="d-none d-sm-block">Upload new photo</span>
-                                        <i class="bx bx-upload d-block d-sm-none"></i>
-                                        <input type="file" id="upload" name="fileUpload" class="account-file-input"
-                                            hidden accept="image/png, image/jpeg, image/jpg" />
-                                    </label>
-
-                                    <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
-                                        <i class="bx bx-reset d-block d-sm-none"></i>
-                                        <span class="d-none d-sm-block">Reset</span>
-                                    </button>
-                                    <button class="btn btn-outline-success accougnt-image-reset mb-4 upload submitOk"
-                                        data-img="{{ Session::get('images') }}">
-                                        <i class="bx bx-reset d-block d-sm-none "></i>
-                                        <span class="d-none d-sm-block">OK</span>
-                                    </button>
 
 
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                     <hr class="my-0" />
                     <div class="card-body">
-                        <form id="formAccountSettings" method="POST" action="" onsubmit="return false">
+                        <form id="formAccountSettings" method="POST" action="{{ route('register.custom') }}" enctype="multipart/form-data">
                             @csrf
+                            <div class="card-body">
+                                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                        <img src="{{ asset('storage/img/uptoload.jpg')}}" alt="user-avatar" class="d-block rounded img_edit" height="100" width="100" id="fileUpload" />
+                                    <div class="button-wrapper">
+
+                                        <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                            <span class="d-none d-sm-block">Upload new photo</span>
+                                            <i class="bx bx-upload d-block d-sm-none"></i>
+                                            <input  type="file" id="upload" name="avatar" class="account-file-input"
+                                                   hidden accept="image/png, image/jpeg, image/jpg" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group mb-3 inputbox" style="    margin: 11px 0 !important;">
                                 <input type="text" placeholder="Name" id="name" class="form-control" name="name"
                                     required autofocus>
@@ -102,79 +88,5 @@
     <!-- / Content -->
 </div>
 <script src="{{asset('storage/assets/vendor/libs/jquery/jquery.js')}}"></script>
-<script>
-
-
-$(document).ready(function () {
-
-    var fileName = "uptoload.jpg";
-    $('.submitOk').click(function() {
-        // Lấy danh sách các tệp tin đã chọn
-        var files = $(this).prop('files');
-
-        // Kiểm tra xem đã có tệp tin được chọn hay chưa
-        if (files.length > 0) {
-            // Lấy tên của tệp tin đầu tiên
-            fileName = files[0].name;
-            // In ra tên của tệp tin
-            $('#fileUpload').attr('src', URL.createObjectURL(files[0]));
-        }
-    });
-
-    var imageElement = $('.img_edit');
-
-    // Get the "src" attribute of the image
-    var imageSrc = imageElement.attr('src');
-
-    // Split the imageSrc to get the filename
-    var fileimg = imageSrc.split('/').pop();
-
-    // Replace spaces with hyphens in the filename
-    fileimg = fileimg.replace(/\s+/g, '-');
-
-    console.log(fileimg); // This will show the modified filename with hyphens instead of spaces.
-
-
-    if (fileimg !== null) {
-        fileName = fileimg
-    }
-    console.log('Image filename:', fileName);
-
-    $('.add_user').click(function() {
-
-        var type = $('#type option:selected').val();
-        var name = $('#name').val();
-        var numberPhone = $('#numberPhone').val();
-        var email = $('#email_address').val();
-
-
-
-        console.log(name);
-        $.ajax({
-            type: 'POST',
-            url: '{{ route('user.add') }}',
-            data: {
-                _token: '{{ csrf_token() }}',
-                type: type,
-                name: name,
-                numberPhone: numberPhone,
-                email: email,
-                img: fileName,
-
-            },
-            success: function(response) {
-                if (response.success) {
-                    swal("Thêm Thành công", "", "success");;
-
-                }
-            },
-            error: function() {
-                swal("Thêm không thành công.", "You clicked the button!", "warning");
-            }
-        });
-
-    });
-});
-</script>
 
 @endsection

@@ -251,7 +251,7 @@ class AdminController
     public function User()
     {
         //note
-        $user = User::orderBy('id', 'desc')->paginate(5);
+        $user = User::orderBy('id', 'desc')->paginate(3);
         return view('front.admins.user', ['user' => $user]);
     }
     //click user
@@ -293,5 +293,6 @@ class AdminController
             return redirect()->back()->with('error', 'user  not found');
         }
     }
+    
 
 }
