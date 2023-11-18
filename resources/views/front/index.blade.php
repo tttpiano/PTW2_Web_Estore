@@ -25,7 +25,7 @@
                             <div class="categories__item set-bg" data-setbg="{{$products->images[0]->url}}">
                                 <h5><a style
                                        =" white-space: nowrap;overflow: hidden; text-overflow: ellipsis; background: #7fad39;color: #fff"
-                                       href="">{{$products->name}}"
+                                       href="{{ route('shopId', ['id' => $products->id]) }}">{{$products->name}}"
                                         ">{{$products->name}}</a></h5>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                                 </ul>
                             </div>
                             <div class="featured__item__text">
-                                <h6><a href="">{{$sorts->name}}</a></h6>
+                                <h6><a href="{{ route('shopId', ['id' => $sorts->id]) }}">{{$sorts->name}}</a></h6>
                                 <h5>{{number_format($sorts->price)}} đ</h5>
                             </div>
                         </div>
@@ -84,18 +84,18 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-{{--                        <a href="{{ route('shopId', ['id' => 9]) }}"><img--}}
-{{--                                src="https://images.fpt.shop/unsafe/fit-in/800x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/4/8/638165128219834891_F-H1_800x300.png"--}}
-{{--                                alt=""></a>--}}
+                        <a href="{{ route('shopId', ['id' => 9]) }}"><img
+                                src="https://images.fpt.shop/unsafe/fit-in/800x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/4/8/638165128219834891_F-H1_800x300.png"
+                                alt=""></a>
 
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-{{--                        <a href="{{ route('shopId', ['id' => 10]) }}"><img--}}
-{{--                                src="https://images.fpt.shop/unsafe/fit-in/800x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/4/28/638183175738166902_F-H1_800x300.png"--}}
-{{--                                alt="">--}}
-{{--                        </a>--}}
+                        <a href="{{ route('shopId', ['id' => 10]) }}"><img
+                                src="https://images.fpt.shop/unsafe/fit-in/800x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/4/28/638183175738166902_F-H1_800x300.png"
+                                alt="">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
                                 @foreach($latestProducts as $value)
-                                    <a href="" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -126,7 +126,7 @@
                             </div>
                             <div class="latest-prdouct__slider__item">
                                 @foreach($latestProducts2 as $value)
-                                    <a href="" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -147,7 +147,7 @@
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
                                 @foreach($top as $value)
-                                    <a href="" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -161,7 +161,7 @@
                             </div>
                             <div class="latest-prdouct__slider__item">
                                 @foreach($top2 as $value)
-                                    <a href="" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -182,7 +182,7 @@
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
                                 @foreach($latestProducts as $value)
-                                    <a href="" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -196,7 +196,7 @@
                             </div>
                             <div class="latest-prdouct__slider__item">
                                 @foreach($latestProducts2 as $value)
-                                    <a href="" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -238,7 +238,7 @@
 {{--                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>--}}
 {{--                                <li><i class="fa fa-comment-o"></i> 5</li>--}}
                             </ul>
-                            <h5><a href="">{{$value->name}}</a></h5>
+                            <h5><a href="{{ route('shopId', ['id' => $value->id]) }}">{{$value->name}}</a></h5>
                             <p>{{$value->description}}</p>
                         </div>
                     </div>

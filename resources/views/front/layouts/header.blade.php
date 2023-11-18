@@ -33,7 +33,7 @@
     <nav class="humberger__menu__nav mobile-menu">
         <ul>
             <li class="active"><a href="{{route('home')}}">Home</a></li>
-            <li><a href="">Shop</a></li>
+            <li><a href="{{route("shop")}}">Shop</a></li>
             <li><a href="">Pages</a>
                 <ul class="header__menu__dropdown">
                     <li><a href="">Shop Details</a></li>
@@ -131,17 +131,12 @@
                 <nav class="header__menu">
                     <ul>
                         <li class="active"><a href="{{route('home')}}">Home</a></li>
-                        <li><a href="">Shop</a></li>
-                        <li><a href="">Pages</a>
-                            <ul class="header__menu__dropdown">
-                                <li><a href="">Shop Details</a></li>
-                                <li><a href="">Shoping Cart</a></li>
-                                <li><a href="">Check Out</a></li>
-
-                            </ul>
+                        <li><a href="{{ route('shop') }}">Shop</a></li>
+                        <li><a href="{{route('introduce')}}">Introduce</a>
+                            
                         </li>
 
-                        <li><a href="">Contact</a></li>
+                        <li><a href="{{route('contact')}}">Contact</a></li>
                     </ul>
                 </nav>
             </div>
@@ -195,8 +190,8 @@
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="" method="GET">
-                            <input type="text" name="key" placeholder="What do yo u need?">
+                        <form action="{{route('search')}}" method="GET">
+                            <input value="{{ request('key') }}" type="text" name="key" placeholder="What do yo u need?" required>
                             <button type="submit" class="site-btn">SEARCH</button>
                         </form>
                     </div>

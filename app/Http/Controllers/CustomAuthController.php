@@ -64,45 +64,6 @@ class CustomAuthController extends Controller
     {
         return view('auth.registration');
     }
-
-    public function customRegistration(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'avatar' => 'required',
-            'password' => 'required|min:6',
-            'numberPhone' => 'required|min:10',
-
-
-        ]);
-
-        $data = $request->all();
-        $check = $this->create($data, $request);
-
-        return redirect("dashboard")->withSuccess('You have signed-in');
-    }
-
-    public function create(array $data, Request $request)
-    {
-
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
-            $avatar->storeAs('/resources/image', $filename);
-        } else {
-            $filename = null;
-        }
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'avatar' => $data['avatar'],
-            'numberPhone' => $data['numberPhone'],
-        ]);
-    }
-
-
     public function dashboard()
     {
         if (Auth::check()) {
@@ -118,5 +79,47 @@ class CustomAuthController extends Controller
         Auth::logout();
 
         return Redirect('');
+    }
+    public function customRegistration(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'avatar' => 'required', // Add validation for image file
+            'password' => 'required|min:6',
+            'numberPhone' => 'required|min:10',
+            'type' => 'required|in:user,admin',
+        ]);
+
+        $fileName = null;
+
+        if ($request->hasFile('avatar')) {
+            $originName = $request->file('avatar')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('avatar')->getClientOriginalExtension();
+            $fileName = $fileName . '.' . $extension;
+            // Public Folder
+            $request->file('avatar')->move(public_path('storage/img/'), $fileName);
+            $request->session()->put('fileName1', $fileName);
+        }
+
+        $type = $request->input('type', 'user');
+        $data = $request->all();
+         $this->create($data, $request,$type);
+
+        return back()->with('success', 'User add successfully')
+            ->with('images', $fileName);
+    }
+
+    public function create(array $data, Request $request, $type)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'avatar' =>  $request->session()->get('fileName1'),
+            'numberPhone' => $data['numberPhone'],
+            'type' => $type,
+        ]);
     }
 }
