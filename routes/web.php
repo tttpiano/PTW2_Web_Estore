@@ -24,6 +24,15 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 
+Route::get('/contact', function () {
+    return view('front.contact');
+})->name('contact');
+Route::get('/introduce', function () {
+    return view('front.introduce');
+})->name('introduce');
+
+Route::post('/admin/product/insert', [AdminController::class, 'insertProduct'])->name('insert_product');
+
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']);
 Route::get('login', [CustomAuthController::class, 'index'])->name('login');
 Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
@@ -39,10 +48,10 @@ Route::get('/search', [SearchProductController::class, 'search'])->name('search'
 Route::get('/shopdetail/{id}', [ShopDetailController::class, 'showId'])->name('shopId');
 
 
-Route::post('/cart/add', [CartController::class, 'addCart'] )->name('cart.add');
-Route::get('/cart/show', [CartController::class,'CartShow'])->name('cart.show');
-Route::get('/cart/add/{id}', [CartController::class, 'deleteCart'] )->name('cart.delete');
-Route::get('/cart/edit/{id}', [CartController::class, 'editCart'] )->name('cart.edit');
+Route::post('/cart/add', [CartController::class, 'addCart'])->name('cart.add');
+Route::get('/cart/show', [CartController::class, 'CartShow'])->name('cart.show');
+Route::get('/cart/add/{id}', [CartController::class, 'deleteCart'])->name('cart.delete');
+Route::get('/cart/edit/{id}', [CartController::class, 'editCart'])->name('cart.edit');
 Route::post('/shopdetail/{id}', [ReviewController::class, 'store'])->name('ratings.store')->middleware('auth');
 
 
@@ -81,7 +90,7 @@ Route::put('/admin/brand/edit/{id}', [AdminController::class, 'updateBrand'])->n
 // thêm xóa sửa Ram
 
 Route::post('/admin/product/addram/insert', [AdminController::class, 'insertRam'])->name('add.ram');
- Route::delete('/admin/ram/delete/{id}', [AdminController::class, 'deleteRam'])->name('delete.ram');
+Route::delete('/admin/ram/delete/{id}', [AdminController::class, 'deleteRam'])->name('delete.ram');
 Route::put('/admin/ram/edit/{id}', [AdminController::class, 'updateRam'])->name('update.ram');
 
 // thêm xóa sửa Rom
@@ -106,6 +115,3 @@ Route::post('/admin/user/insert', [AdminController::class, 'insertUser'])->name(
 Route::delete('/admin/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('delete.user');
 //sua
 Route::put('/admin/user/edit/{id}', [AdminController::class, 'updateUser'])->name('update.user');
-
-
-

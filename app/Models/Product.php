@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -23,16 +24,18 @@ class Product extends Model
      */
     protected $fillable = [
         'name',
-        'desciption',
+        'description',
         'price',
         'brandId',
         'ramSizeId',
-        'operatingSystemId',
         'internalMemoryId',
         'images',
         'brand',
         'ram',
-        'internalMemory'
+        'openratingSystems',
+        'operatingSystemId',
+
+//        'internalMemory'
     ];
     public function brand()
     {
@@ -49,5 +52,9 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(Images::class, 'productId');
+    }
+    public function imagesP(): HasMany
+    {
+        return $this->hasMany(Images::class, 'product_id', 'id');
     }
 }
