@@ -58,7 +58,16 @@
               <i class="menu-icon tf-icons bx bx-table"></i>
               <div data-i18n="Tables">Sản Phẩm</div>
             </a>
-          </li>          
+          </li>   
+          
+          <!-- uan li useer  -->
+          <li class="menu-item">
+            <a href="{{route("admin_user")}}" class="menu-link">
+            <i class="menu-icon fa fa-user "></i>
+              <div data-i18n="Tables">Quản Lý User</div>
+            </a>
+          </li>  
+       
         </ul>
       </aside>
       <!-- / Menu -->

@@ -67,6 +67,7 @@ Route::get('/admin/product/editram/{id}', [AdminController::class, 'editram'])->
 Route::get('/admin/product/rom', [AdminController::class, 'romproduct'])->name('rom_product');
 Route::get('/admin/product/addrom', [AdminController::class, 'addrom'])->name('add_rom');
 Route::get('/admin/product/editrom/{id}', [AdminController::class, 'editrom'])->name('edit_rom');
+Route::post('/admin/upload', [AdminController::class, 'storeImage'])->name('img.upload');
 
 
 
@@ -91,3 +92,20 @@ Route::delete('/admin/rom/delete/{id}', [AdminController::class, 'deleteRom'])->
 // Route::put('/admin/brand/edit/{id}', [AdminController::class, 'updateRam'])->name('update.ram');
 
 // Route::put('/admin/brand/edit/{id}', [AdminController::class, 'updateBrand'])->name('update.brand');
+
+
+
+// QUAN LY USER
+//user
+Route::get('/admin/user', [AdminController::class, 'user'])->name('admin_user');
+Route::get('/admin/user/add', [AdminController::class, 'addpuser'])->name('add_user');
+Route::get('/admin/user/edit/{id}', [AdminController::class, 'edituser'])->name('edit_user');
+//them
+Route::post('/admin/user/insert', [AdminController::class, 'insertUser'])->name('user.add');
+//xoa
+Route::delete('/admin/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('delete.user');
+//sua
+Route::put('/admin/user/edit/{id}', [AdminController::class, 'updateUser'])->name('update.user');
+
+
+

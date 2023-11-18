@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Database\QueryException;
 use App\Models\Brand;
+use App\Models\User;
 use App\Models\InternalMemory;
 use App\Models\Product;
 use App\Models\RamSize;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController
 {
+    // public function showuser()
+    // {
+    //     return view('front.admins.index');
+    // }
+
     public function showadmin()
     {
         return view('front.admins.index');
@@ -20,7 +27,6 @@ class AdminController
         $sDetail = Product::with('brand')->with('ram')->paginate(10);
         return view('front.admins.product',['sDetail'=>$sDetail]);
     }
-
 
     //------------------------
     public function addproduct()
@@ -92,7 +98,7 @@ class AdminController
     }
 
 
-    
+
 
     // viet ham  thêm xóa sửa cho brandaad
 
@@ -142,7 +148,23 @@ class AdminController
             return redirect()->back()->with('error', 'Failed to add Ram. ' . $e->getMessage());
         }
     }
-    
+    //them user
+    public function insertUser(Request $request)
+    {
+
+
+            User::create([
+                'name' => $request->name,
+                'numberPhone' =>    $request->numberPhone,
+                'avatar' => $request->img,
+                'email' => $request->email,
+                'password' =>  Hash::make($request->input('password')),
+                'type'=> $request->type
+                ]);
+            return response()->json(['success'=>true]);
+
+    }
+
     public function deleteRam($id)
     {
         $ram = RamSize::find($id);
@@ -156,7 +178,7 @@ class AdminController
     }
     public function updateRam($id, Request $request)
     {
-        
+
         $ram = RamSize::find($id);
         if ($ram) {
             $ram->update([
@@ -182,7 +204,7 @@ class AdminController
     }
     public function updateRom($id, Request $request)
     {
-        
+
         $rom = InternalMemory::find($id);
         if ($rom) {
             $rom->update([
@@ -207,4 +229,70 @@ class AdminController
             return redirect()->back()->with('error', 'rom not found');
         }
     }
+    public function storeImage(Request $request)
+    {
+        if ($request->hasFile('fileUpload')) {
+            $originName = $request->file('fileUpload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('fileUpload')->getClientOriginalExtension();
+            $fileName = $fileName . '.' . $extension;
+            // Public Folder
+            $request->file('fileUpload')->move(public_path('storage/img/'), $fileName);
+            $request->session()->put('fileName1', $fileName);
+
+            return back()->with('success', 'Image uploaded Successfully!')
+                ->with('images', $fileName);
+        }
+    }
+
+    // user
+
+    //show trang user
+    public function User()
+    {
+        //note
+        $user = User::orderBy('id', 'desc')->paginate(3);
+        return view('front.admins.user', ['user' => $user]);
+    }
+    //click user
+    public function addpuser()
+    {
+        return view('front.admins.user_add');
+    }
+    //click edit
+    public function edituser($id)
+    {
+        $edit = User::find($id);
+        return view('front.admins.user_edit',['user' => $edit]);
+    }
+   //xoa user
+   public function deleteUser($id)
+   {
+       $user = User::find($id);
+
+       if ($user) {
+           $user->delete();
+           return redirect()->back()->with('success', 'User deleted successfully');
+       } else {
+           return redirect()->back()->with('error', 'User not found');
+       }
+   }
+// update user
+    public function updateUser($id, Request $request)
+    {
+
+        $user = RamSize::find($id);
+        if ($user) {
+            $user->update([
+                'name' => $request->input('user'),
+                // Cập nhật các trường khác nếu cần
+            ]);
+
+            return redirect()->back()->with('success', 'user  updated successfully');
+        } else {
+            return redirect()->back()->with('error', 'user  not found');
+        }
+    }
+    
+
 }
