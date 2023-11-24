@@ -146,7 +146,7 @@
                                         <div id="review-form">
                                             <form class="review-form" action="{{route('ratings.store', $sDetail->id) }}" method="POST">
                                                 @csrf
-                                                <textarea class="input" style="width: 500px;" name="comment" id="comment" placeholder="Your Review"></textarea>
+                                                <textarea required class="input" style="width: 500px;" name="comment" id="comment" placeholder="Your Review"></textarea>
                                                 <div class="input-rating">
                                                     <span>Your Rating: </span>
                                                     <div class="stars" name="rating" id="rating">
@@ -184,23 +184,23 @@
             </div>
             <div class="row">
                 @foreach($relatedProducts as $re)
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="product__item">
 
-                        <div class="product__item__pic set-bg" data-setbg="{{$re->images[0]->url}}">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
+                            <div class="product__item__pic set-bg" data-setbg="{{$re->images[0]->url}}">
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="#">{{$re -> name}}</a></h6>
+                                <h5>{{number_format($re->price)}} Đ</h5>
+                            </div>
                         </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">{{$re -> name}}</a></h6>
-                            <h5>{{number_format($re->price)}} Đ</h5>
-                        </div>
+
                     </div>
-
-                </div>
                 @endforeach
 
             </div>

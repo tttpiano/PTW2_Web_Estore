@@ -63,7 +63,7 @@
                                 <ul class="featured__item__pic__hover">
                                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                     <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="{{ route('shopId', ['id' => $sorts->id]) }}"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="featured__item__text">
@@ -228,21 +228,21 @@
             </div>
             <div class="row">
                 @foreach($top as $value)
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img style="width: 250px;height: 250px;" src="{{$value->images[0]->url}}" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-{{--                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>--}}
-{{--                                <li><i class="fa fa-comment-o"></i> 5</li>--}}
-                            </ul>
-                            <h5><a href="{{ route('shopId', ['id' => $value->id]) }}">{{$value->name}}</a></h5>
-                            <p>{{$value->description}}</p>
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic">
+                                <img style="width: 250px;height: 250px;" src="{{$value->images[0]->url}}" alt="">
+                            </div>
+                            <div class="blog__item__text">
+                                <ul>
+                                    {{--                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>--}}
+                                    {{--                                <li><i class="fa fa-comment-o"></i> 5</li>--}}
+                                </ul>
+                                <h5><a href="{{ route('shopId', ['id' => $value->id]) }}">{{$value->name}}</a></h5>
+                                <p>{{$value->description}}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
