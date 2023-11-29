@@ -46,7 +46,7 @@
                             <span>(18 reviews)</span>
                         </div>
                         <div class="product__details__price">{{number_format($sDetail->price)}} Đ</div>
-                        <p>{{$sDetail->description}}</p>
+                        <p>{!! html_entity_decode($sDetail->description) !!}</p>
                         <div class="product__details__quantity">
                             <div class="quantity">
                                 <div class="pro-qty">
@@ -56,11 +56,25 @@
                         </div>
                         @guest
                             <a data-product-id="" style="cursor: pointer; color: #fff !important;" class="primary-btn addCart">ADD TO CARD</a>
-                            <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         @else
                             @if (Auth::check())
                                 <a href=""  data-product-id="{{$sDetail->id}}" style="cursor: pointer;color: #fff !important;" class="primary-btn add-to-cart ">ADD TO CARD</a>
-                                <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                @guest
+                                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                @else
+                                    @if (Auth::check())
+                                         <a class="heart-icon"
+                                                @if($favorite->where('product_id', $sDetail->id)->where('user_id',auth()->user()->id)->count() > 0)
+                                                    style="background: #7fad39; border-color: #7fad39"
+                                                @endif
+                                                href=""
+                                            >
+                                                <i class="fa fa-heart"></i>
+                                            </a>
+
+                                    @endif
+                                @endguest
+
                             @endif
                         @endguest
 
@@ -97,11 +111,11 @@
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
                                     <h6>Products Infomation</h6>
-                                    <p>{{$sDetail->description}}</p>
+                                    <p> {!! html_entity_decode($sDetail->description) !!}</p>
                                     <p>Hệ Điều Hành: {{$sDetail->openratingSystems}}</p>
-                                    <p>Hãng        : {{$sDetail->brand->name}}</p>
-                                    <p>Ram         : {{$sDetail->ram->size}}</p>
-                                    <p>Bộ nhớ trong: {{$sDetail->internalMemory->size}}</p>
+                                    <p>Hãng        : {{optional($sDetail->brand)->name}}</p>
+                                    <p>Ram         : {{optional($sDetail->ram)->size}}</p>
+                                    <p>Bộ nhớ trong: {{optional($sDetail->internalMemory)->size}}</p>
 
                                 </div>
                             </div>
@@ -146,7 +160,7 @@
                                         <div id="review-form">
                                             <form class="review-form" action="{{route('ratings.store', $sDetail->id) }}" method="POST">
                                                 @csrf
-                                                <textarea class="input" style="width: 500px;" name="comment" id="comment" placeholder="Your Review"></textarea>
+                                                <textarea required class="input" style="width: 500px;" name="comment" id="comment" placeholder="Your Review"></textarea>
                                                 <div class="input-rating">
                                                     <span>Your Rating: </span>
                                                     <div class="stars" name="rating" id="rating">
@@ -184,23 +198,37 @@
             </div>
             <div class="row">
                 @foreach($relatedProducts as $re)
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="product__item">
 
-                        <div class="product__item__pic set-bg" data-setbg="{{$re->images[0]->url}}">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
+                            <div class="product__item__pic set-bg" data-setbg="{{$re->images[0]->url}}">
+                                <ul class="product__item__pic__hover">
+                                    @guest
+                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    @else
+                                        @if (Auth::check())
+                                            <li class="favouriteAdd" value="{{$re->id}}"> <a
+                                                    @if($favorite->where('product_id', $re->id)->where('user_id',auth()->user()->id)->count() > 0)
+                                                        style="background: #7fad39; border-color: #7fad39"
+                                                    @endif
+                                                    href=""
+                                                >
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endguest
+                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="{{ route('shopId', ['id' => encrypt($re->id), 'product' => Str::slug($re->name)]) }}">{{$re -> name}}</a></h6>
+                                <h5>{{number_format($re->price)}} Đ</h5>
+                            </div>
                         </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">{{$re -> name}}</a></h6>
-                            <h5>{{number_format($re->price)}} Đ</h5>
-                        </div>
+
                     </div>
-
-                </div>
                 @endforeach
 
             </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\FavouriteItem;
 use App\Models\InternalMemory;
 use App\Models\Product;
 use App\Models\RamSize;
@@ -24,13 +25,14 @@ class ProductController extends Controller
     // product
     public function showProduct()
     {
-        // khai báo biến để lấy danh sách sản phẩm 
+        // khai báo biến để lấy danh sách sản phẩm
         $product = Product::all();
         $brands = Brand::all();
         $ramsize = RamSize::all();
         $rom = InternalMemory::all();
-        
-        
+        $favorite = FavouriteItem::all();
+
+
         $sort = Product::orderBy('price', 'desc')->take(8)->get();
         $latestProducts = Product::orderBy('id', 'desc')->take(3)->get();
         $latestProducts2 = Product::orderBy('id', 'desc')->skip(3)->take(3)->get();
@@ -38,7 +40,8 @@ class ProductController extends Controller
         $top2 = Product::orderBy('price', 'desc')->skip(3)->take(3)->get();
         return view('front.index', ['product' => $product, 'sort' => $sort,
             'latestProducts' => $latestProducts, 'latestProducts2' => $latestProducts2,
-            'top' => $top, 'top2' => $top2, 'brands'=> $brands,'ram'=>$ramsize,'rom'=>$rom
+            'top' => $top, 'top2' => $top2, 'brands'=> $brands,'ram'=>$ramsize,'rom'=>$rom,
+            'favorite' => $favorite
         ]);
 
 
