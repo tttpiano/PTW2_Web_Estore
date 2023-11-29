@@ -66,12 +66,14 @@ Route::middleware('admin.login')->group(function () {
     Route::get('/admin', [AdminController::class, 'showadmin'])->name('admin_home');
     Route::get('/admin/product', [AdminController::class, 'showproduct'])->name('admin_product');
     Route::get('/admin/product/add', [AdminController::class, 'addproduct'])->name('add_product');
-    Route::get('/admin/product/edit', [AdminController::class, 'editproduct'])->name('edit_product');
+    Route::get('/admin/product/edit/{id}', [AdminController::class, 'editproduct'])->name('edit_product');
+    Route::put('/admin/product/edit/{id}', [AdminController::class, 'updateproduct'])->name('update.product');
 
 // brand
     Route::get('/admin/product/brand', [AdminController::class, 'brandproduct'])->name('brand_product');
     Route::get('/admin/product/addbrand', [AdminController::class, 'addbrand'])->name('add_brand');
     Route::get('/admin/product/editbrand/{id}', [AdminController::class, 'editbrand'])->name('edit_brand');
+    Route::delete('/admin/product/delete/{id}', [AdminController::class, 'deleteproduct'])->name('delete.product');
 
 // ram
     Route::get('/admin/product/ram', [AdminController::class, 'ramproduct'])->name('ram_product');

@@ -69,7 +69,7 @@
 
 
                                 <td>
-                                    <a href="{{route("edit_ram",$item->id)}}"" class=" btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
+                                    <a href="{{route("edit_ram",$item->id)}}" class=" btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
 
                                     <form id="delete-form" method="POST" action="{{ route('delete.ram', $item->id) }}" style="display: inline-block;">
                                         @csrf

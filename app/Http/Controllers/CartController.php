@@ -14,6 +14,13 @@ class CartController
     public function addCart(Request $request)
     {
         $user = Auth::user();
+        $product = Product::find($request->product_id);
+
+        if (!$product) {
+
+                return redirect('/')->with('error', 'Sản phẩm không tồn tại.');
+
+        }else{
         $cart = Cart::where('user_id', $user->id )->first();
         if ($cart === null){
             $cart =  Cart::create([
@@ -36,6 +43,7 @@ class CartController
             ]);
         }
         return response()->json(['success' => true]);
+        }
     }
     public function CartShow()
     {

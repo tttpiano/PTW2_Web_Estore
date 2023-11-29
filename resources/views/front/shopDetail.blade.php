@@ -46,7 +46,7 @@
                             <span>(18 reviews)</span>
                         </div>
                         <div class="product__details__price">{{number_format($sDetail->price)}} Đ</div>
-                        <p>{{$sDetail->description}}</p>
+                        <p>{!! html_entity_decode($sDetail->description) !!}</p>
                         <div class="product__details__quantity">
                             <div class="quantity">
                                 <div class="pro-qty">
@@ -111,11 +111,11 @@
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
                                     <h6>Products Infomation</h6>
-                                    <p>{{$sDetail->description}}</p>
+                                    <p> {!! html_entity_decode($sDetail->description) !!}</p>
                                     <p>Hệ Điều Hành: {{$sDetail->openratingSystems}}</p>
-                                    <p>Hãng        : {{$sDetail->brand->name}}</p>
-                                    <p>Ram         : {{$sDetail->ram->size}}</p>
-                                    <p>Bộ nhớ trong: {{$sDetail->internalMemory->size}}</p>
+                                    <p>Hãng        : {{optional($sDetail->brand)->name}}</p>
+                                    <p>Ram         : {{optional($sDetail->ram)->size}}</p>
+                                    <p>Bộ nhớ trong: {{optional($sDetail->internalMemory)->size}}</p>
 
                                 </div>
                             </div>

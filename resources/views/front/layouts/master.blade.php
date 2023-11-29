@@ -63,9 +63,11 @@
 
 
                 $.ajax({
+
                     type: 'POST',
                     url: '{{ route('cart.add') }}',
                     data: {
+                        _token: '{{ csrf_token() }}',
                         product_id: productId,
                         quantity: quantity
                     },
@@ -74,6 +76,7 @@
                             alert('Sản phẩm đã được thêm vào giỏ hàng.');
                         } else {
                             alert('Không thể thêm sản phẩm vào giỏ hàng.');
+                            window.location.href = '/';
                         }
                     },
                     error: function () {

@@ -24,6 +24,13 @@
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header" style="background-color: #696cff; border-color: #696cff; color:#fff">
@@ -63,20 +70,21 @@
                             <td>{{ \Illuminate\Support\Str::limit($item->description, 20) }}</td>
                             <td>{{ number_format($item->price, 0, ',', '.') }} VND</td>
                             <td>{{$item->openratingSystems}}</td>
-                            
+
                             <td>{{ optional($item->brand)->name }}</td>
                             <td>{{ optional($item->ram)->size }}</td>
                             <td>{{ optional($item->internalMemory)->size }}</td>
 
                             <td>
-                                <a href="{{route('edit_product')}}" class="btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
+                                <a href="{{route('edit_product',encrypt($item->id))}}" class="btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
 
-                                <form id="delete-form" action="" method="POST" style="display: inline-block;">
-
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">Xoá
+                                <form id="delete-form" action="{{ route('delete.product', $item->id) }}" method="POST" style="display: inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{$item->id}}">Xoá
                                     </button>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="delete{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -84,7 +92,7 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Bạn có muốn xoá <strong><b></b></strong>
+                                                    Bạn có muốn xoá <strong><b>{{$item->name}}</b></strong>
                                                     này?
                                                 </div>
                                                 <div class="modal-footer">
