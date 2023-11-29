@@ -131,8 +131,8 @@
                             @foreach($products as $value)
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="{{$value->images[0]->url}}">
-                                            <ul class="product__item__pic__hover">
+                                        <img style="object-fit: cover" class="product__item__pic set-bg" src="{{$value->images[0]->url}}">
+                                        <ul class="product__item__pic__hover">
                                                 @guest
                                                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                                 @else
