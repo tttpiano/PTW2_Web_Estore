@@ -17,11 +17,11 @@ class ReviewController extends Controller
         ]);
 
         $user = $request->user();
-        $rating = Review::updateOrCreate(
-            ['product_id' => $product_id, 'user_id' => $user->id],
-            ['rating' => $request->input('rating'), 'comment' => $request->input('comment')]
+        $rating = Review::create([
+            'product_id' => $product_id, 'user_id' => $user->id,
+            'rating' => $request->input('rating'), 'comment' => $request->input('comment')
 
-        );
+        ]);
 
         $product = Product::findOrFail($product_id);
         $ratings = Review::where('product_id', $product_id)->get();
