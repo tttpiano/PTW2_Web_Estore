@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section style="background: url('{{asset('storage/img/background6.jpg')}}')">
+    <section style="background: url('{{asset('storage/img/resgiter.jpg')}}')">
         <div class="form-box">
             <div class="form-value">
                 <form action="{{ route('login.custom') }}" method="POST">

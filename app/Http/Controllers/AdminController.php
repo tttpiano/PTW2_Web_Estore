@@ -24,14 +24,17 @@ class AdminController
     }
     public function showproduct()
     {
-        $sDetail = Product::with('brand')->with('ram')->paginate(10);
-        return view('front.admins.product',['sDetail'=>$sDetail]);
+        $sDetail = Product::orderBy('id', 'desc')->with('brand')->with('ram')->paginate(10);
+        return view('front.admins.product', ['sDetail' => $sDetail]);
     }
 
     //------------------------
     public function addproduct()
     {
-        return view('front.admins.product_add');
+        $brand = Brand::orderBy('id', 'asc')->get();
+        $ram = RamSize::orderBy('id', 'desc')->get();
+        $internalMemory = InternalMemory::orderBy('id', 'desc')->get();
+        return view('front.admins.product_add',['brand'=>$brand,'ram'=>$ram,'internalMemory'=>$internalMemory]);
     }
     public function editproduct()
     {
@@ -40,7 +43,56 @@ class AdminController
 
     //------------------------ brand
 
+    public function insertProduct(Request $request)
+    {
 
+        // Kiểm tra xem có file avatar được tải lên không
+        if ($request->hasFile('avatar')) {
+            $originName = $request->file('avatar')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('avatar')->getClientOriginalExtension();
+            $fileName = $fileName . '.' . $extension;
+
+            // Di chuyển file vào thư mục public/storage/img/
+            $request->file('avatar')->move(public_path('storage/img/'), $fileName);
+
+            // Lưu tên file vào session để sử dụng khi tạo hình ảnh mới
+            $request->session()->put('fileName1', $fileName);
+        }
+
+        // Tạo dữ liệu cho sản phẩm
+        $productData = [
+            'name' => $request->input('name'),
+            'description' => $request->description,
+            'price' => $request->input('price'),
+            'openratingSystems' => $request->input('openratingSystems'),
+            'brandId' => $request->input('Brandll'),
+            'ramSizeId' => $request->input('ram'),
+            'internalMemoryId' => $request->input('internalMemory'),
+            'operatingSystemId' => 0,
+
+        ];
+
+        // Tạo sản phẩm
+        $product = Product::create($productData);
+
+        // Kiểm tra xem có tên file trong session không
+        if ($request->session()->has('fileName1')) {
+            // Tạo dữ liệu cho hình ảnh
+            $imageData = [
+                'url' => 'http://127.0.0.1:8000/storage/img/'.$request->session()->get('fileName1'),
+                // Các trường khác của hình ảnh nếu cần
+            ];
+
+            // Tạo hình ảnh liên quan đến sản phẩm vừa tạo
+            $newImage = $product->images()->create($imageData);
+
+            // Xóa tên file khỏi session sau khi sử dụng
+            $request->session()->forget('fileName1');
+        }
+
+        return back()->with('success', 'Product added successfully');
+    }
     // them xoo sua bran
     public function brandproduct()
     {
@@ -94,7 +146,7 @@ class AdminController
     public function editrom($id)
     {
         $edit = InternalMemory::find($id);
-        return view('front.admins.categery.rom_edit' ,['edit_rom' => $edit]);
+        return view('front.admins.categery.rom_edit', ['edit_rom' => $edit]);
     }
 
 
@@ -137,7 +189,7 @@ class AdminController
         }
     }
 
-   // viet ham  thêm xóa sửa cho Ram
+    // viet ham  thêm xóa sửa cho Ram
 
     public function insertRam(Request $request)
     {
@@ -153,16 +205,15 @@ class AdminController
     {
 
 
-            User::create([
-                'name' => $request->name,
-                'numberPhone' =>    $request->numberPhone,
-                'avatar' => $request->img,
-                'email' => $request->email,
-                'password' =>  Hash::make($request->input('password')),
-                'type'=> $request->type
-                ]);
-            return response()->json(['success'=>true]);
-
+        User::create([
+            'name' => $request->name,
+            'numberPhone' =>    $request->numberPhone,
+            'avatar' => $request->img,
+            'email' => $request->email,
+            'password' =>  Hash::make($request->input('password')),
+            'type' => $request->type
+        ]);
+        return response()->json(['success' => true]);
     }
 
     public function deleteRam($id)
@@ -192,7 +243,7 @@ class AdminController
         }
     }
 
-  //  viet ham  thêm xóa sửa cho Bộ nhớ trong
+    //  viet ham  thêm xóa sửa cho Bộ nhớ trong
     public function insertRom(Request $request)
     {
         try {
@@ -263,21 +314,21 @@ class AdminController
     public function edituser($id)
     {
         $edit = User::find($id);
-        return view('front.admins.user_edit',['user' => $edit]);
+        return view('front.admins.user_edit', ['user' => $edit]);
     }
-   //xoa user
-   public function deleteUser($id)
-   {
-       $user = User::find($id);
+    //xoa user
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
 
-       if ($user) {
-           $user->delete();
-           return redirect()->back()->with('success', 'User deleted successfully');
-       } else {
-           return redirect()->back()->with('error', 'User not found');
-       }
-   }
-// update user
+        if ($user) {
+            $user->delete();
+            return redirect()->back()->with('success', 'User deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'User not found');
+        }
+    }
+    // update user
     public function updateUser($id, Request $request)
     {
 
@@ -293,6 +344,4 @@ class AdminController
             return redirect()->back()->with('error', 'user  not found');
         }
     }
-    
-
 }

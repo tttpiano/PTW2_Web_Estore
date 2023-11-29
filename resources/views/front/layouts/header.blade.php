@@ -132,16 +132,11 @@
                     <ul>
                         <li class="active"><a href="{{route('home')}}">Home</a></li>
                         <li><a href="{{ route('shop') }}">Shop</a></li>
-                        <li><a href="">Pages</a>
-                            <ul class="header__menu__dropdown">
-                                <li><a href="">Shop Details</a></li>
-                                <li><a href="">Shoping Cart</a></li>
-                                <li><a href="">Check Out</a></li>
-
-                            </ul>
+                        <li><a href="{{route('introduce')}}">Introduce</a>
+                            
                         </li>
 
-                        <li><a href="">Contact</a></li>
+                        <li><a href="{{route('contact')}}">Contact</a></li>
                     </ul>
                 </nav>
             </div>

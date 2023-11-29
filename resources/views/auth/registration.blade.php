@@ -1,10 +1,12 @@
 @extends('dashboard')
 
 @section('content')
-    <section style="background: url('{{asset('storage/img/background6.jpg')}}')">
+
+    <section style="background: url('{{asset('storage/img/resgiter.jpg')}}')">
+
         <div class="form-box">
             <div class="form-value">
-                <form action="{{ route('register.custom') }}" method="POST">
+                <form action="{{ route('register.custom') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group mb-3 inputbox" style="    margin: 11px 0 !important;">
                         <input type="text" placeholder="Name" id="name" class="form-control" name="name" required
@@ -41,6 +43,7 @@
                         @endif
                     </div>
 
+
                     <div class="form-group mb-3">
                         <div class="checkbox">
                             <label><input type="checkbox" name="remember"> Remember Me</label>
@@ -50,8 +53,21 @@
                     <div class="d-grid mx-auto">
                         <button type="submit" class="btn btn-dark btn-block">Sign up</button>
                     </div>
-                    <div>
+
+                    @if(session('success'))
+                        <div
+                            style="margin-top: 10px;color: black;font-size: 20px; background: #0def42;text-align: center;border-radius: 10px">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <select hidden class="form-select" name="type" id="type">
+                        <option value="user">User</option>
+                    </select>
+
+                    <div class="register" style="text-align: right">
+                        <p><a href="/login">Login</a></p>
                     </div>
+
 
                 </form>
             </div>
