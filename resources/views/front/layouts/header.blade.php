@@ -76,7 +76,6 @@
                             @else
                                 @if (Auth::check())
                                     <li><i class="fa fa-envelope"></i>{{ auth()->user()->email }} </li>
-                                    <li>Free Shipping for all Order of $99</li>
                                 @endif
                             @endguest
                         </ul>

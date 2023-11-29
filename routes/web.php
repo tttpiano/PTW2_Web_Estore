@@ -111,14 +111,13 @@ Route::middleware('admin.login')->group(function () {
 
 // Route::put('/admin/brand/edit/{id}', [AdminController::class, 'updateBrand'])->name('update.brand');
 
-
-
+    Route::get('/admin/searchUser', [AdminController::class, 'searchUser'])->name('searchUser');
 // QUAN LY USER
 //user
     Route::get('/admin/user', [AdminController::class, 'user'])->name('admin_user');
     Route::get('/admin/user/add', [AdminController::class, 'addpuser'])->name('add_user');
     Route::get('/admin/user/edit/{id}', [AdminController::class, 'edituser'])->name('edit_user');
-//them
+//
     Route::post('/admin/user/insert', [AdminController::class, 'insertUser'])->name('user.add');
 //xoa
     Route::delete('/admin/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('delete.user');

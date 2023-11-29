@@ -443,4 +443,16 @@ class AdminController
             return redirect()->back()->with('error', 'user  not found');
         }
     }
+    public function searchUser(Request $request)
+    {
+        $request->validate([
+            'key' => 'nullable|string|max:500',
+        ]);
+        $key = trim(substr(request()->key, 0, 500));
+        $user = null;
+        if ($key != '') {
+            $user = User::where('name', 'like', "%" . $key . "%")->paginate(9);
+        }
+        return view('front.admins.searchUser', ['user' => $user]);
+    }
 }
