@@ -107,6 +107,9 @@
                                     <div style="display: flex; list-style: none">
                                         <li style="color:#1c7430; margin-right: 20px" >{{ auth()->user()->name }}</li>
                                         <li><a href="{{ route('signout') }}"><i class="fa fa-user-o" style="color:#d12e00f0 !important"></i>Logout</a></li>
+                                        @if(auth()->user()->type == "admin")
+                                            <li style="margin-left: 20px"><a href="/admin"><i class="fa-solid fa-bars-progress"></i>Quản Lý Trang</a></li>
+                                        @endif
                                     </div>
                                 @endif
                             @endguest
