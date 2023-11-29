@@ -84,6 +84,31 @@
         });
 
     </script>
+    <script>
+        $(document).ready(function() {
+            $('.favouriteAdd').click(function() {
+                var productId = $(this).val();
+                console.log(productId);
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route("favourite.add") }}',
+                    data: {
+                        product_id: productId,
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Sản phẩm đã được thêm vào trang yêu thích.');
+                        } else {
+                            alert('Không thể thêm sản phẩm vào trang yêu thích.');
+                        }
+                    },
+                    error: function() {
+                        alert('Vui lòng đăng nhập');
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 

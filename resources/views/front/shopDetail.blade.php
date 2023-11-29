@@ -56,11 +56,25 @@
                         </div>
                         @guest
                             <a data-product-id="" style="cursor: pointer; color: #fff !important;" class="primary-btn addCart">ADD TO CARD</a>
-                            <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         @else
                             @if (Auth::check())
                                 <a href=""  data-product-id="{{$sDetail->id}}" style="cursor: pointer;color: #fff !important;" class="primary-btn add-to-cart ">ADD TO CARD</a>
-                                <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                @guest
+                                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                @else
+                                    @if (Auth::check())
+                                         <a class="heart-icon"
+                                                @if($favorite->where('product_id', $sDetail->id)->where('user_id',auth()->user()->id)->count() > 0)
+                                                    style="background: #7fad39; border-color: #7fad39"
+                                                @endif
+                                                href=""
+                                            >
+                                                <i class="fa fa-heart"></i>
+                                            </a>
+
+                                    @endif
+                                @endguest
+
                             @endif
                         @endguest
 
@@ -189,13 +203,27 @@
 
                             <div class="product__item__pic set-bg" data-setbg="{{$re->images[0]->url}}">
                                 <ul class="product__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    @guest
+                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    @else
+                                        @if (Auth::check())
+                                            <li class="favouriteAdd" value="{{$re->id}}"> <a
+                                                    @if($favorite->where('product_id', $re->id)->where('user_id',auth()->user()->id)->count() > 0)
+                                                        style="background: #7fad39; border-color: #7fad39"
+                                                    @endif
+                                                    href=""
+                                                >
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endguest
                                     <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                     <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
-                                <h6><a href="#">{{$re -> name}}</a></h6>
+                                <h6><a href="{{ route('shopId', ['id' => encrypt($re->id), 'product' => Str::slug($re->name)]) }}">{{$re -> name}}</a></h6>
                                 <h5>{{number_format($re->price)}} Đ</h5>
                             </div>
                         </div>

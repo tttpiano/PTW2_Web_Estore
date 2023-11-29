@@ -20,7 +20,10 @@ class AdminController
 
     public function showadmin()
     {
-        return view('front.admins.index');
+        $product = Product::count();
+        $user = User::count();
+
+        return view('front.admins.index', ['product' => $product],['user' => $user]);
     }
     public function showproduct()
     {

@@ -25,8 +25,7 @@
                             <div class="categories__item set-bg" data-setbg="{{$products->images[0]->url}}">
                                 <h5><a style
                                        =" white-space: nowrap;overflow: hidden; text-overflow: ellipsis; background: #7fad39;color: #fff"
-                                       href="{{ route('shopId', ['id' => $products->id]) }}">{{$products->name}}"
-                                        ">{{$products->name}}</a></h5>
+                                       href="{{ route('shopId', ['id' => encrypt($products->id), 'product' => Str::slug($products->name)]) }}">{{$products->name}}</a></h5>
                             </div>
                         </div>
                     @endforeach
@@ -61,13 +60,30 @@
                         <div class="featured__item">
                             <div class="featured__item__pic set-bg" data-setbg="{{$sorts->images[0]->url}}">
                                 <ul class="featured__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+
+                                    @guest
+                                        <li class="favouriteAdd" value="{{$sorts->id}}"><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    @else
+                                        @if (Auth::check())
+                                            <li class="favouriteAdd" value="{{$sorts->id}}"> <a
+                                                @if($favorite->where('product_id', $sorts->id)->where('user_id',auth()->user()->id)->count() > 0)
+                                                    style="background: #7fad39; border-color: #7fad39"
+                                                @endif
+                                                href=""
+                                            >
+                                                <i class="fa fa-heart"></i>
+                                            </a>
+                                            </li>
+                                        @endif
+                                    @endguest
                                     <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="{{ route('shopId', ['id' => $sorts->id]) }}"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="{{ route('shopId', ['id' => encrypt($sorts->id), 'product' => Str::slug($sorts->name)]) }}"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="featured__item__text">
-                                <h6><a href="{{ route('shopId', ['id' => $sorts->id]) }}">{{$sorts->name}}</a></h6>
+
+                                <h6><a href="{{ route('shopId', ['id' => encrypt($sorts->id), 'product' => Str::slug($sorts->name)]) }}">{{$sorts->name}}</a></h6>
+
                                 <h5>{{number_format($sorts->price)}} đ</h5>
                             </div>
                         </div>
@@ -84,7 +100,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <a href="{{ route('shopId', ['id' => 9]) }}"><img
+                        <a href="#"><img
                                 src="https://images.fpt.shop/unsafe/fit-in/800x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/4/8/638165128219834891_F-H1_800x300.png"
                                 alt=""></a>
 
@@ -92,7 +108,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <a href="{{ route('shopId', ['id' => 10]) }}"><img
+                        <a href="#"><img
                                 src="https://images.fpt.shop/unsafe/fit-in/800x300/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/4/28/638183175738166902_F-H1_800x300.png"
                                 alt="">
                         </a>
@@ -113,7 +129,7 @@
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
                                 @foreach($latestProducts as $value)
-                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => encrypt($value->id), 'product' => Str::slug($value->name)]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -126,7 +142,7 @@
                             </div>
                             <div class="latest-prdouct__slider__item">
                                 @foreach($latestProducts2 as $value)
-                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => encrypt($value->id), 'product' => Str::slug($value->name)]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -147,7 +163,7 @@
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
                                 @foreach($top as $value)
-                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => encrypt($value->id), 'product' => Str::slug($value->name)]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -161,7 +177,7 @@
                             </div>
                             <div class="latest-prdouct__slider__item">
                                 @foreach($top2 as $value)
-                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => encrypt($value->id), 'product' => Str::slug($value->name)]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -182,7 +198,7 @@
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
                                 @foreach($latestProducts as $value)
-                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => encrypt($value->id), 'product' => Str::slug($value->name)]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -196,7 +212,7 @@
                             </div>
                             <div class="latest-prdouct__slider__item">
                                 @foreach($latestProducts2 as $value)
-                                    <a href="{{ route('shopId', ['id' => $value->id]) }}" class="latest-product__item">
+                                    <a href="{{ route('shopId', ['id' => encrypt($value->id), 'product' => Str::slug($value->name)]) }}" class="latest-product__item">
                                         <div class="latest-product__item__pic">
                                             <img src="{{$value->images[0]->url}}" alt="">
                                         </div>
@@ -238,7 +254,7 @@
                                     {{--                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>--}}
                                     {{--                                <li><i class="fa fa-comment-o"></i> 5</li>--}}
                                 </ul>
-                                <h5><a href="{{ route('shopId', ['id' => $value->id]) }}">{{$value->name}}</a></h5>
+                                <h5><a href="{{ route('shopId', ['id' => encrypt($value->id), 'product' => Str::slug($value->name)]) }}">{{$value->name}}</a></h5>
                                 <p>{{$value->description}}</p>
                             </div>
                         </div>
@@ -247,4 +263,5 @@
             </div>
         </div>
     </section>
+
 @endsection

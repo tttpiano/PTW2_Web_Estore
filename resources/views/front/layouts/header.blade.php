@@ -133,7 +133,7 @@
                         <li class="active"><a href="{{route('home')}}">Home</a></li>
                         <li><a href="{{ route('shop') }}">Shop</a></li>
                         <li><a href="{{route('introduce')}}">Introduce</a>
-                            
+
                         </li>
 
                         <li><a href="{{route('contact')}}">Contact</a></li>
@@ -151,7 +151,7 @@
                     @else
                         @if (Auth::check())
                             <ul>
-                                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                                <li><a href="{{route('favourite.show')}}"><i class="fa fa-heart"></i> <span>{{session('count_favourite') }}</span></a></li>
                                 <li><a href="{{route('cart.show')}}"><i class="fa fa-shopping-bag"></i> <span>{{session('countProducts') }}</span></a></li>
                             </ul>
                             <div class="header__cart__price">item: <span>{{ number_format(session('total')) }}đ</span></div>
@@ -191,10 +191,15 @@
                 <div class="hero__search">
                     <div class="hero__search__form">
                         <form action="{{route('search')}}" method="GET">
-                            <input value="{{ request('key') }}" type="text" name="key" placeholder="What do yo u need?" required>
+
+                            <input style="width: 82%;" value="{{ request('key') }}" type="text" name="key" placeholder="What do yo u need?" required>
                             <button type="submit" class="site-btn">SEARCH</button>
                         </form>
+
                     </div>
+                    @if ($errors->has('key'))
+                        <span style="position: absolute;top: 55px;left: 18px;" class="text-danger">{{ $errors->first('key') }}</span>
+                    @endif
                     <div class="hero__search__phone">
                         <div class="hero__search__phone__icon">
                             <i class="fa fa-phone"></i>

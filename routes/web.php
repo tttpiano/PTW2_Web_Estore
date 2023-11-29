@@ -14,6 +14,7 @@
 */
 
 
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchProductController;
 use App\Http\Controllers\ShopController;
@@ -45,7 +46,8 @@ Route::get('pages', [CustomAuthController::class, 'phanTrang'])->name('abc');
 Route::get('', [ProductController::class, 'showProduct'])->name('home');
 Route::get('/shop', [ShopController::class, 'show'])->name('shop');
 Route::get('/search', [SearchProductController::class, 'search'])->name('search');
-Route::get('/shopdetail/{id}', [ShopDetailController::class, 'showId'])->name('shopId');
+Route::get('/shopdetail/{product}&code={id}', [ShopDetailController::class, 'showId'])->name('shopId');
+
 
 
 Route::post('/cart/add', [CartController::class, 'addCart'])->name('cart.add');
@@ -53,6 +55,10 @@ Route::get('/cart/show', [CartController::class, 'CartShow'])->name('cart.show')
 Route::get('/cart/add/{id}', [CartController::class, 'deleteCart'])->name('cart.delete');
 Route::get('/cart/edit/{id}', [CartController::class, 'editCart'])->name('cart.edit');
 Route::post('/shopdetail/{id}', [ReviewController::class, 'store'])->name('ratings.store')->middleware('auth');
+Route::get('/favourite/add', [FavouriteController::class, 'favouriteAdd'])->name('favourite.add');
+Route::get('/favourite/show', [FavouriteController::class, 'FavouriteShow'])->name('favourite.show');
+Route::get('/favourite/{id}', [FavouriteController::class, 'Favouritedelete'])->name('favourite.delete');
+
 
 Route::middleware('admin.login')->group(function () {
 
