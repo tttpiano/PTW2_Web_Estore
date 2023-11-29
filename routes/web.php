@@ -68,6 +68,8 @@ Route::middleware('admin.login')->group(function () {
     Route::get('/admin/product/add', [AdminController::class, 'addproduct'])->name('add_product');
     Route::get('/admin/product/edit/{id}', [AdminController::class, 'editproduct'])->name('edit_product');
     Route::put('/admin/product/edit/{id}', [AdminController::class, 'updateproduct'])->name('update.product');
+    Route::get('/searchProduct', [AdminController::class, 'searchProduct'])->name('searchProduct');
+
 
 // brand
     Route::get('/admin/product/brand', [AdminController::class, 'brandproduct'])->name('brand_product');

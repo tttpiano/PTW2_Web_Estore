@@ -9,6 +9,7 @@
         </div>
         <!-- tim user-->
         <!-- /Search -->
+        <div class="navbar-nav-right  align-items-center" id="navbar-collapse">
         <form action="{{ route('searchUser') }}" method="get">
             <div class="nav-item d-flex align-items-center" style="width: 100%;">
 
@@ -16,9 +17,10 @@
                 <input type="text" name="key" class="form-control border-0 shadow-none" id="search_product"
                        placeholder="Search..."
                        aria-label="Search..." style="width: 100%;"/>
-                <button class="btn btn-outline-secondary" style="margin-left:700px" type="submit">Tìm</button>
+                <button class="btn btn-outline-secondary" type="submit">Tìm</button>
             </div>
         </form>
+        </div>
         <!-- /Search -->
 
 
