@@ -58,7 +58,7 @@
                                             aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    Bạn có muốn xoá bài viết này?
+                                    Bạn có muốn xoá bài viết " {{ \Illuminate\Support\Str::limit($post -> title,10)}} " này?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
