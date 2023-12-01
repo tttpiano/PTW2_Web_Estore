@@ -6,6 +6,28 @@
 
             </div>
             <div class="col-lg-12">
+                <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" style="margin-bottom: 50px">
+                    <div class="carousel-inner">
+                        @foreach ($slides as $slide)
+                            <a href="{{ $slide->url }}">
+                                <div class="carousel-item active" data-bs-interval="2000">
+                                    <img src="{{ asset('images/slide/' . $slide->name) }}" class="d-block w-100 img-fluid"
+                                         alt="..." style="height: 431px; ">
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
                 <a href="/shop?brand%5B1%5D=on&minamount=0%C2%A0₫&maxamount=50.000.000%C2%A0₫&sort=asc">
                     <div class="hero__item set-bg"
                          data-setbg="https://cdn.hoanghamobile.com/i/home/Uploads/2023/05/02/14prm-pc.png"

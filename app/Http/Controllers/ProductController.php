@@ -41,10 +41,11 @@ class ProductController extends Controller
         $latestProducts2 = Product::orderBy('id', 'desc')->skip(3)->take(3)->get();
         $top = Product::orderBy('price', 'desc')->take(3)->get();
         $top2 = Product::orderBy('price', 'desc')->skip(3)->take(3)->get();
+        $slide = DB::table('slide')->get(); //site
         return view('front.index', ['product' => $product, 'sort' => $sort,
             'latestProducts' => $latestProducts, 'latestProducts2' => $latestProducts2,
             'top' => $top, 'top2' => $top2, 'brands'=> $brands,'ram'=>$ramsize,'rom'=>$rom,
-            'favorite' => $favorite,'chat' => $chat, 'rep' => $rep
+            'favorite' => $favorite,'chat' => $chat, 'rep' => $rep,'slides' => $slide
         ]);
     }
 

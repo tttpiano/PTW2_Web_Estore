@@ -181,6 +181,12 @@ Route::middleware('admin.login')->group(function () {
     Route::put('/admin/openratingSystems/edit/{id}', [AdminController::class, 'updateOpenratingSystems'])->name('update.openratingSystems');
     Route::delete('/admin/openratingSystems/delete/{id}', [AdminController::class, 'deleteOpenratingSystems'])->name('delete.openratingSystems');
     Route::get('/admin', [WebsiteController::class, 'showVisitsChart'])->name('admin.visits');
-
+// Slide
+    Route::get('/admin/slide', [AdminController::class, 'slide'])->name('admin_slide');
+    Route::get('/admin/slide/add', [AdminController::class, 'slide_add'])->name('slide_add');
+    Route::post('/admin/slide/insert', [AdminController::class, 'slide_insert'])->name('slide_insert');
+    Route::get('/admin/slide/edit/{id}', [AdminController::class, 'slide_edit'])->name('slide_edit');
+    Route::post('/admin/slide/{id}', [AdminController::class, 'slide_update'] )->name('slide.edit');
+    Route::get('/admin/slide/delete/{id}', [AdminController::class, 'slide_delete'])->name('slide_delete');
 
 });
