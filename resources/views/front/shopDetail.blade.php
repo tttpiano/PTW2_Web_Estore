@@ -79,6 +79,8 @@
                         @endguest
 
                         <ul>
+                            <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
+                            <div class="elfsight-app-67b05653-aa92-4672-8671-9ae16fb8f8bd" data-elfsight-app-lazy></div>
                             <li><b>Availability</b> <span>In Stock</span></li>
                             <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
                             <li><b>Weight</b> <span>0.5 kg</span></li>
