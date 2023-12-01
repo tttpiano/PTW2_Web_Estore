@@ -15,6 +15,7 @@
 
 
 use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchProductController;
@@ -34,6 +35,12 @@ Route::get('/introduce', function () {
     return view('front.introduce');
 })->name('introduce');
 
+Route::get('/history', function () {
+    return view('front.history');
+})->name('history');
+Route::delete('/chat/delete/{id}', [ProductController::class, 'deleteChat'])->name('delete.chat');
+Route::post('/chat/addChat', [ProductController::class, 'addChat'])->name('add.chat');
+Route::get('history', [HistoryController::class, 'historyShow'])->name('history');
 Route::post('/admin/product/insert', [AdminController::class, 'insertProduct'])->name('insert_product');
 
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']);
@@ -149,7 +156,7 @@ Route::middleware('admin.login')->group(function () {
     Route::get('/admin/post/pagin/{id}', [PostController::class, 'pagin_postAdmin'])->name('pagin.post');
     Route::get('/ajax/posts', [PostController::class, 'ajaxPaginationPostAdmin'])->name('ajax.posts');
     Route::get('/admin/post/detal', [PostController::class, 'detal'])->name('detal.post');
-    Route::get('/admin/post/detal', [AdminController::class, 'detal'])->name('detal.product');
+    Route::get('/admin/product/detal', [AdminController::class, 'detal'])->name('detal.product');
 
 
 
