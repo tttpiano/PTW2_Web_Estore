@@ -149,7 +149,7 @@ Route::middleware('admin.login')->group(function () {
     Route::get('/admin/post/pagin/{id}', [PostController::class, 'pagin_postAdmin'])->name('pagin.post');
     Route::get('/ajax/posts', [PostController::class, 'ajaxPaginationPostAdmin'])->name('ajax.posts');
     Route::get('/admin/post/detal', [PostController::class, 'detal'])->name('detal.post');
-    Route::get('/admin/post/detal', [AdminController::class, 'detal'])->name('detal.product');
+    Route::get('/admin/product/detal', [AdminController::class, 'detal'])->name('detal.product');
 
 
 
