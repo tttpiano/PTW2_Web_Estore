@@ -50,6 +50,11 @@
                         <div data-i18n="Horizontal Form">bộ nhớ trong</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{route("openratingSystems_product")}}" class="menu-link">
+                        <div data-i18n="Horizontal Form">Hệ Điều Hành</div>
+                    </a>
+                </li>
             </ul>
           </li>
           <!-- Tables -->

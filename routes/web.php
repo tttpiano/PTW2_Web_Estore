@@ -14,6 +14,7 @@
 */
 
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PostController;
@@ -27,7 +28,21 @@ use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+// thanh toan---------------------------------------------------------------
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::get('/checkout/proceed', [CheckoutController::class, 'proceed'])->name('checkout.proceed');
 
+
+// routes/web.php
+
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+
+// cam on
+
+Route::view('/checkout/thankyou', 'checkout.thankyou')->name('checkout.thankyou');
+// routes/web.php
+
+Route::get('/thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou');
 Route::get('/contact', function () {
     return view('front.contact');
 })->name('contact');
@@ -157,8 +172,15 @@ Route::middleware('admin.login')->group(function () {
     Route::get('/ajax/posts', [PostController::class, 'ajaxPaginationPostAdmin'])->name('ajax.posts');
     Route::get('/admin/post/detal', [PostController::class, 'detal'])->name('detal.post');
     Route::get('/admin/product/detal', [AdminController::class, 'detal'])->name('detal.product');
+// he dieu hanh
+    Route::get('/admin/product/openratingSystems', [AdminController::class, 'openratingSystemsproduct'])->name('openratingSystems_product');
+    Route::get('/admin/product/addopenratingSystems', [AdminController::class, 'addopenratingSystems'])->name('add_openratingSystems');
+    Route::get('/admin/product/editopenratingSystems/{id}', [AdminController::class, 'editopenratingSystems'])->name('edit_openratingSystems');
 
-
-
+    Route::post('/admin/product/addopenratingSystems/insert', [AdminController::class, 'insertOpenratingSystems'])->name('add.openratingSystems');
+    Route::put('/admin/openratingSystems/edit/{id}', [AdminController::class, 'updateOpenratingSystems'])->name('update.openratingSystems');
+    Route::delete('/admin/openratingSystems/delete/{id}', [AdminController::class, 'deleteOpenratingSystems'])->name('delete.openratingSystems');
     Route::get('/admin', [WebsiteController::class, 'showVisitsChart'])->name('admin.visits');
+
+
 });
