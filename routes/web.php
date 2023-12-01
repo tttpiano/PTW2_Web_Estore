@@ -15,10 +15,12 @@
 
 
 use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ShopDetailController;
+use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ProductController;
@@ -59,6 +61,10 @@ Route::get('/favourite/add', [FavouriteController::class, 'favouriteAdd'])->name
 Route::get('/favourite/show', [FavouriteController::class, 'FavouriteShow'])->name('favourite.show');
 Route::get('/favourite/{id}', [FavouriteController::class, 'Favouritedelete'])->name('favourite.delete');
 
+Route::get('/blog', [PostController::class, 'getAllBlogs'])->name('blog');
+Route::get('/blog/{url_seo}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/blog/pagin/{id}', [PostController::class, 'pagin_blog'])->name('pagin.blog');
+Route::get('/ajax/blogs', [PostController::class, 'ajaxPaginationBlog'])->name('ajax.blogs');
 
 Route::middleware('admin.login')->group(function () {
 
@@ -126,4 +132,22 @@ Route::middleware('admin.login')->group(function () {
 //sua
     Route::put('/admin/user/edit/{id}', [AdminController::class, 'updateUser'])->name('update.user');
 
+
+
+    ////POST
+      Route::post('/upload/image', [PostController::class, 'upload'])->name('upload.image');
+    Route::get('/admin/post/edit/{id}', [PostController::class, 'postEdit'])->name('post_edit');
+    Route::get('/admin/post/add', [PostController::class, 'postAdd'])->name('post_add');
+    Route::put('/admin/edit/{id}', [PostController::class, 'update'] )->name('post.edit');
+    Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
+    Route::get('/admin/post', [PostController::class, 'index'])->name('admin_post');
+    Route::post('/admin/post/insert', [PostController::class, 'insert'])->name('admin_post_insert');
+    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::get('/admin/post/search', [PostController::class, 'search'])->name('search.post');
+    Route::get('/admin/post/pagin/{id}', [PostController::class, 'pagin_postAdmin'])->name('pagin.post');
+    Route::get('/ajax/posts', [PostController::class, 'ajaxPaginationPostAdmin'])->name('ajax.posts');
+    Route::get('/admin/post/detal', [PostController::class, 'detal'])->name('detal.post');
+
+
+    Route::get('/admin', [WebsiteController::class, 'showVisitsChart'])->name('admin.visits');
 });

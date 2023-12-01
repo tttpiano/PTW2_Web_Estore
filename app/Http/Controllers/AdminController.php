@@ -19,18 +19,12 @@ class AdminController
     //     return view('front.admins.index');
     // }
 
-    public function showadmin()
-    {
-        $product = Product::count();
-        $user = User::count();
 
-        return view('front.admins.index', ['product' => $product], ['user' => $user]);
-    }
 
     public function showproduct()
     {
-        $sDetail = Product::orderBy('id', 'desc')->with('brand')->with('ram')->paginate(10);
-        return view('front.admins.product', ['sDetail' => $sDetail]);
+        $product = Product::orderBy('id', 'desc')->with('brand')->with('ram')->paginate(10);
+        return view('front.admins.product', ['sDetail' => $product]);
     }
 
     //------------------------
@@ -144,7 +138,6 @@ class AdminController
             'ramSizeId' => $request->input('ram'),
             'internalMemoryId' => $request->input('internalMemory'),
             'operatingSystemId' => 0,
-
         ];
 
         // Tạo sản phẩm

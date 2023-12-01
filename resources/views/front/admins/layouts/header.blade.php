@@ -19,7 +19,7 @@
 
             <!-- Dashboard -->
             <li class="menu-item">
-                <a href="{{route("admin_home")}}" class="menu-link">
+                <a href="/admin" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                     <div data-i18n="Analytics">Trang Chủ</div>
                 </a>
@@ -58,16 +58,22 @@
               <i class="menu-icon tf-icons bx bx-table"></i>
               <div data-i18n="Tables">Sản Phẩm</div>
             </a>
-          </li>   
-          
+          </li>
+
           <!-- uan li useer  -->
           <li class="menu-item">
             <a href="{{route("admin_user")}}" class="menu-link">
             <i class="menu-icon fa fa-user "></i>
               <div data-i18n="Tables">Quản Lý User</div>
             </a>
-          </li>  
-       
+          </li>
+            <li class="menu-item">
+                <a href="{{route('admin_post')}}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-table"></i>
+                    <div data-i18n="Tables">Bài Viết</div>
+                </a>
+            </li>
+
         </ul>
       </aside>
       <!-- / Menu -->
