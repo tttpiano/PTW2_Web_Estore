@@ -139,6 +139,7 @@
 
                         <li><a href="{{route('contact')}}">Contact</a></li>
                         <li><a href="{{route('blog')}}">Blog</a></li>
+                        <li><a href="/history">History</a></li>
                     </ul>
                 </nav>
             </div>
