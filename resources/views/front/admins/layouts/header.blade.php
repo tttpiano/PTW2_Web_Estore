@@ -78,7 +78,12 @@
                     <div data-i18n="Tables">Bài Viết</div>
                 </a>
             </li>
-
+            <li class="menu-item">
+                <a href="{{route('admin_slide')}}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-table"></i>
+                    <div data-i18n="Tables">Slide</div>
+                </a>
+            </li>
         </ul>
       </aside>
       <!-- / Menu -->

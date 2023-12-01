@@ -12,6 +12,7 @@ use App\Models\InternalMemory;
 use App\Models\Product;
 use App\Models\RamSize;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController
@@ -606,6 +607,39 @@ class AdminController
         } else {
             return redirect()->back()->with('error', 'Brand not found');
         }
+    }
+    public function slide() {
+        $slide = DB::table('slide')->get();
+        return view('front.admins.slide', ['slides' => $slide]);
+    }
+    public function slide_add() {
+        return view('front.admins.slide_add');
+    }
+    public function slide_insert(Request $request) {
+        $file = $request->file('avatar');
+        $path = 'images/slide';
+        $fileName = $file->getClientOriginalName();
+        $file->move($path, $fileName);
+        $slide = DB::table('slide')->insert(['name' => $fileName, 'url' => $request->url]);
+        $slide = DB::table('slide')->get();
+        return redirect('/admin/slide')->with('success', 'Thêm thành công');
+    }
+    public function slide_edit($id) {
+        $slide = DB::table('slide')->find($id);
+        return view('front.admins.slide_edit', ['slide' => $slide]);
+    }
+    public function slide_update($id, Request $request) {
+        $file = $request->file('avatar');
+        $path = 'images/slide';
+        $fileName = $file->getClientOriginalName();
+        $file->move($path, $fileName);
+        DB::table('slide')->where(['id' => $id])->update(['name' => $fileName, 'url' => $request->url]);
+        $slide = DB::table('slide')->get();
+        return redirect('/admin/slide')->with('success', 'Thêm thành công');
+    }
+    public function slide_delete($id) {
+        DB::table('slide')->where(['id' => $id])->delete();
+        return redirect('/admin/slide')->with('success', 'Xóa thành công');
     }
 
 }
