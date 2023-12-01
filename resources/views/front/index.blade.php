@@ -22,6 +22,8 @@
                 <div class="categories__slider owl-carousel">
                     @foreach( $product as $products)
                         <div class="col-lg-3">
+
+
                             <div class="categories__item set-bg" data-setbg="{{$products->images[0]->url}}">
                                 <h5><a style
                                        =" white-space: nowrap;overflow: hidden; text-overflow: ellipsis; background: #7fad39;color: #fff"

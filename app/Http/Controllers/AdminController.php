@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OpenratingSystems;
 use App\Models\Post;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\QueryException;
@@ -553,4 +554,58 @@ class AdminController
         return response($output);
 
     }
+
+    public function openratingSystemsproduct()
+    {
+        //note
+        $openratingSystemsproduct = OpenratingSystems::orderBy('id', 'desc')->paginate(5);
+        return view('front.admins.categery.openratingSystems', ['openratingSystems' => $openratingSystemsproduct]);
+    }
+    public function addopenratingSystems()
+    {
+        return view('front.admins.categery.openratingSystems_add');
+    }
+    // Cập nhật hệ điều hành - Xử lý form chỉnh sửa
+    public function editopenratingSystems($id)
+    {
+        // get data theo id
+        $edit = OpenratingSystems::find($id);
+
+        return view('front.admins.categery.openratingSystems_edit', ['edit_openratingSystems' => $edit]);
+    }
+    public function insertOpenratingSystems(Request $request)
+    {
+        try {
+            OpenratingSystems::create(['name' => $request->input('name')]);
+            return redirect()->back()->with('success', 'OpenratingSystems added successfully');
+        } catch (QueryException $e) {
+            return redirect()->back()->with('error', 'Failed to add OpenratingSystems. ' . $e->getMessage());
+        }
+    }
+    public function deleteOpenratingSystems($id)
+    {
+        $openratingSystems = OpenratingSystems::find($id);
+
+        if ($openratingSystems) {
+            $openratingSystems->delete();
+            return redirect()->back()->with('success', 'Brand deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'Brand not found');
+        }
+    }
+    public function updateOpenratingSystems($id, Request $request)
+    {
+        $openratingSystems = OpenratingSystems::find($id);
+        if ($openratingSystems) {
+            $openratingSystems->update([
+                'name' => $request->input('name'),
+                // Cập nhật các trường khác nếu cần
+            ]);
+
+            return redirect()->back()->with('success', 'Brand updated successfully');
+        } else {
+            return redirect()->back()->with('error', 'Brand not found');
+        }
+    }
+
 }
