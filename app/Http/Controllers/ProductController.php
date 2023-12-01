@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 // import vào để chạy db
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 
 
 class ProductController extends Controller
@@ -44,6 +45,45 @@ class ProductController extends Controller
             'favorite' => $favorite
         ]);
 
+
+    }
+
+    public function searchLq(Request $request)
+    {
+        $keyword = $request->search;
+
+        $products = Product::where('name', 'like', '%' . $keyword . '%')->with('images')->paginate(5);
+
+        $output = "";
+
+        foreach ($products as $product) {
+            // Retrieve the images for the current product
+            $images = $product->images;
+
+            // Check if there are images before trying to access the first one
+            $imageSrc = $images->isNotEmpty() ? $images->first()->url : 'path/to/default/image.jpg';
+
+            $output .= '<div class="sp" style="display: flex;align-items: center;border-bottom: 1px solid #ccc;padding: 20px 0px">
+                    <img src="' . $imageSrc . '" alt="Product Image" style="width: 100px; height: 100px; object-fit: contain; margin-right: 10px;">
+                    <div>
+                        <span style="font-size: 16px; display: block; margin-bottom: 5px;">
+                            <a class="disable-hover" href="'. route('shopId', ['id' => encrypt($product->id), 'product' => Str::slug($product->name)]).'" style="color:#000000;">
+                                ' . $product->name . '
+                            </a>
+                        </span>';
+
+            if ($product->price !== null) {
+                $output .= '<span style="color: red">' . number_format($product->price) . ' VNĐ';
+            } else {
+                $output .= '<span style="color: red">Liên Hệ</span>';
+            }
+
+            $output .= '</div>
+                </div>';
+        }
+
+
+        return response($output);
 
     }
 

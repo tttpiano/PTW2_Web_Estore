@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\QueryException;
 use App\Models\Brand;
@@ -19,18 +20,11 @@ class AdminController
     //     return view('front.admins.index');
     // }
 
-    public function showadmin()
-    {
-        $product = Product::count();
-        $user = User::count();
-
-        return view('front.admins.index', ['product' => $product], ['user' => $user]);
-    }
 
     public function showproduct()
     {
-        $sDetail = Product::orderBy('id', 'desc')->with('brand')->with('ram')->paginate(10);
-        return view('front.admins.product', ['sDetail' => $sDetail]);
+        $product = Product::orderBy('id', 'desc')->with('brand')->with('ram')->paginate(10);
+        return view('front.admins.product', ['sDetail' => $product]);
     }
 
     //------------------------
@@ -53,7 +47,7 @@ class AdminController
             $product = Product::find($decodedId);
 
 
-            return view('front.admins.product_edit', compact('product','brand','ram','internalMemory'));
+            return view('front.admins.product_edit', compact('product', 'brand', 'ram', 'internalMemory'));
 
         } catch (DecryptException $e) {
             // Decryption failed, redirect back with an error message
@@ -113,10 +107,11 @@ class AdminController
 
         return back()->with('success', 'Product added successfully');
     }
-    public function updateproduct($id,Request $request)
+
+    public function updateproduct($id, Request $request)
     {
-        $product=Product::find($id);
-        if (!$product){
+        $product = Product::find($id);
+        if (!$product) {
             return redirect('/admin')->with('error', 'Sản phẩm không tồn tại.');
         }
         // Kiểm tra xem có file avatar được tải lên không
@@ -144,7 +139,6 @@ class AdminController
             'ramSizeId' => $request->input('ram'),
             'internalMemoryId' => $request->input('internalMemory'),
             'operatingSystemId' => 0,
-
         ];
 
         // Tạo sản phẩm
@@ -253,6 +247,7 @@ class AdminController
             return redirect()->back()->with('error', 'Brand not found');
         }
     }
+
     public function deleteproduct($id)
     {
         $product = Product::find($id);
@@ -442,5 +437,120 @@ class AdminController
         } else {
             return redirect()->back()->with('error', 'user  not found');
         }
+    }
+
+    public function searchUser(Request $request)
+    {
+        $request->validate([
+            'key' => 'nullable|string|max:500',
+        ]);
+        $key = trim(substr(request()->key, 0, 500));
+        $user = null;
+        if ($key != '') {
+            $user = User::where('name', 'like', "%" . $key . "%")->paginate(9);
+        }
+        return view('front.admins.searchUser', ['user' => $user]);
+    }
+
+    public function searchProduct(Request $request)
+    {
+        $request->validate([
+            'key' => 'nullable|string|max:500',
+        ]);
+
+        $key = trim(substr(request()->key, 0, 500));
+        $brands = Brand::all();
+        $rams = RamSize::all();
+        $internalMemories = InternalMemory::all();
+        $search = null;
+
+
+        if ($key !== '') {
+            $search = Product::where('products.name', 'like', "%" . $key . "%")->paginate(9);
+        }
+
+        return view('front.admins.searchProduct', [
+            'brands' => $brands,
+            'ramsizes' => $rams,
+            'internalMemories' => $internalMemories,
+            'search' => $search,
+        ]);
+    }
+
+    public function detal(Request $request)
+    {
+        $id = $request->id;
+        $product = Product::with('images')->with('brand')->with('ram')->find($id);
+
+        $images = $product->images;
+        $br = $product->brand;
+        $ram = $product->ram;
+
+        $imageSrc = $images->isNotEmpty() ? $images->first()->url : 'path/to/default/image.jpg';
+        $output = '<style>';
+        $output .= '.custom-table { border-collapse: collapse; width: 100%;box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;}';
+        $output .= '.custom-table th { text-align: left; padding: 8px; width: 150px; background-color: #f2f2f2; box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;}';
+        $output .= '.custom-table td { text-align: left; padding: 8px; }';
+        $output .= '.custom-table tr:nth-child(2n) td { background-color: #f1f1f1; }'; // Even rows (td)
+        $output .= '.custom-table tr:nth-child(2n) th { background-color: #f1f1f1; }'; // Even rows (th)
+        $output .= '.custom-table tr:nth-child(2n+1) th { background-color: #fff; }';
+        $output .= '';
+        $output .= '</style>';
+
+
+        $output .= '<table class="custom-table">';
+        // First column
+        $output .= '<tr><th>Name</th><td class="text-center">' . $product->name . '</td></tr>';
+        $output .= '<tr><th>Image</th><td class="text-center">';
+
+        $output .= '<img style="width: 100px;width:100px;height:100px;object-fit: cover;" src="' . $imageSrc . '" alt="Image">';
+
+        $output .= '</td></tr>';
+        $output .= '<tr><th>Mô tả</th><td class="text-center">' . \Illuminate\Support\Str::limit($product->description, 30) . '</td></tr>';
+        $output .= '<tr><th>Giá</th><td class="text-center">' . $product->price . '</td></tr>';
+        $output .= '<tr><th>Hệ Điều Hành</th><td class="text-center">' . $product->openratingSystems . '</td></tr>';
+        $output .= '<tr><th>Hãng</th><td class="text-center">' . $br->name . '</td></tr>';
+        $output .= '<tr><th>Ram</th><td class="text-center">' . $ram->size . '</td></tr>';
+
+
+        $output .= '</td></tr>';
+
+
+        // Add similar sections for category_child, brand, and wattage in the second column.
+        // ...
+
+        $output .= '</table>';
+        $output .= '<div style="display: flex; justify-content: center ; margin-top: 20px">';
+        $output .= ' <a href="' . route('edit_product', encrypt($product->id)) . '" class="btn btn-info" style="margin-right: 20px"><i
+                                            class="bx bx-edit-alt me-1"></i>Edit</a>';
+        $output .= '
+                <form id="delete-form" action="' . route('delete.product', $product->id) . '" method="POST" style="display: inline-block;">
+                    ' . csrf_field() . '
+                    ' . method_field('DELETE') . '
+
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete' . $product->id . '">Xoá</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="delete' . $product->id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Xoá Bài Viết</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Bạn có muốn xoá <strong><b>' . $product->name . '</b></strong> này?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-danger">Xoá</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            ';
+        $output .= '</div>';
+        return response($output);
+
     }
 }

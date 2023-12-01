@@ -7,14 +7,17 @@
         </a>
     </div>
 
-    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+    <div class="navbar-nav-right  align-items-center" id="navbar-collapse">
         <!-- Search -->
-        <div class="navbar-nav align-items-center" style="width: 100%;">
+        <form action="{{ route('searchProduct') }}" method="get">
             <div class="nav-item d-flex align-items-center" style="width: 100%;">
                 <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="text" class="form-control border-0 shadow-none" id="search_product" placeholder="Search..." aria-label="Search..." style="width: 100%;" />
+                <input type="text" name="key" class="form-control border-0 shadow-none" id="search_product"
+                       placeholder="Search..."
+                       aria-label="Search..." style="width: 100%;"/>
+                <button class="btn btn-outline-secondary" type="submit">Tìm</button>
             </div>
-        </div>
+        </form>
         <!-- /Search -->
 
 
@@ -61,7 +64,7 @@
                         $coun = ($currentPage - 1) * $sDetail->perPage() + 1;
                         ?>
                         @foreach($sDetail as $item )
-                        <tr>
+                        <tr class="alldata"  data-product="{{$item->id}}">
                             <td>{{ $coun++ }}</td>
                             <td>{{$item->name}}</td>
                             <td>
@@ -109,6 +112,8 @@
                         @endforeach
 
                     </tbody>
+
+                    <tbody id="Content" class="searchdata">
                 </table>
             </div>
 
@@ -117,6 +122,62 @@
 
     </div>
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-body" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset">
+                <div id="detalProduct"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 100%;">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{asset('storage/assets/vendor/libs/jquery/jquery.js')}}"></script>
+<script>
+    $(document).ready(function () {
+
+        const rows = $('tr.alldata');
+
+        // Lặp qua từng hàng <tr>
+        rows.each(function () {
+            // Lấy tất cả các ô <td> trong hàng trừ <td> cuối cùng
+            const tds = $(this).find('td:not(:last-child)');
+
+            // Thêm thuộc tính data-bs-toggle và data-bs-target vào các ô <td> tương ứng
+            tds.attr('data-bs-toggle', 'modal');
+            tds.attr('data-bs-target', '#exampleModal');
+        });
+    });
+
+    $('.alldata td').each(function () {
+        // Thêm thuộc tính CSS vào các thẻ <td> này (ví dụ: thêm màu nền và màu chữ)
+        $(this).css({
+            'cursor': 'pointer'
+        });
+    });
+    $('.alldata').on('click', 'td', function () {
+        var productId = $(this).closest('.alldata').data('product');
+        console.log('Product ID:', productId);
+        $.ajax(
+            {
+                type: 'get',
+                url: '{{route("detal.product")}}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: productId,
+                },
+                success: function (data) {
+                    console.log('Received data:', data);
+                    $('#detalProduct').html(data);
+                }
+            }
+        )
+    });
+</script>
 <!-- Button trigger modal -->
 <!--  -->
 @endsection

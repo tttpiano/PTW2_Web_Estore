@@ -64,7 +64,7 @@
 
 
                                 <td>
-                                    <a href="{{route("edit_brand",$item->id)}}"" class=" btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
+                                    <a href="{{route("edit_brand",$item->id)}}" class=" btn btn-outline-info"><i class="bx bx-edit-alt me-1"></i>Edit</a><br><br>
                                     <form id="delete-form" action="{{route('delete.brand', $item->id) }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
