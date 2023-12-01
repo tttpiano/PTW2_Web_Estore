@@ -100,6 +100,24 @@
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 
+<script>
+    $(document).ready(function () {
 
+        $("#title").on("keyup input", function() {
+            // Lấy giá trị nhập vào
+            var inputValue = $(this).val();
+            var trimmedValue = inputValue.replace(/\s+$/, "");
+
+            // Thay thế các khoảng trắng còn lại bằng dấu _
+            var formattedValue = trimmedValue
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/\s+/g, "-");
+
+
+            $("#Url_Seo").val(formattedValue);// Hiển thị giá trị nhập vào trong console
+        });
+    });
+</script>
 </body>
 </html>

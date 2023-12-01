@@ -7,7 +7,7 @@
 <div class="humberger__menu__overlay"></div>
 <div class="humberger__menu__wrapper">
     <div class="humberger__menu__logo">
-        <a href="#"><img src="{{assert("storage/img/logo.png")}}" alt=""></a>
+{{--        <a href="#"><img src="{{assert("storage/img/logo.png")}}" alt=""></a>--}}
     </div>
     <div class="humberger__menu__cart">
         <ul>
@@ -18,7 +18,7 @@
     </div>
     <div class="humberger__menu__widget">
         <div class="header__top__right__language">
-            <img src="{{assert("storage/img/language.png")}}" alt="">
+
             <div>English</div>
             <span class="arrow_carrot-down"></span>
             <ul>
@@ -76,7 +76,6 @@
                             @else
                                 @if (Auth::check())
                                     <li><i class="fa fa-envelope"></i>{{ auth()->user()->email }} </li>
-                                    <li>Free Shipping for all Order of $99</li>
                                 @endif
                             @endguest
                         </ul>
@@ -91,7 +90,6 @@
                             <a href="#"><i class="fa fa-pinterest-p"></i></a>
                         </div>
                         <div class="header__top__right__language">
-                            <img src="{{assert("storage/img/language.png")}}" alt="">
                             <div>English</div>
                             <span class="arrow_carrot-down"></span>
                             <ul>
@@ -107,6 +105,9 @@
                                     <div style="display: flex; list-style: none">
                                         <li style="color:#1c7430; margin-right: 20px" >{{ auth()->user()->name }}</li>
                                         <li><a href="{{ route('signout') }}"><i class="fa fa-user-o" style="color:#d12e00f0 !important"></i>Logout</a></li>
+                                        @if(auth()->user()->type == "admin")
+                                            <li style="margin-left: 20px"><a href="/admin"><i class="fa-solid fa-bars-progress"></i>Quản Lý Trang</a></li>
+                                        @endif
                                     </div>
                                 @endif
                             @endguest
@@ -137,6 +138,7 @@
                         </li>
 
                         <li><a href="{{route('contact')}}">Contact</a></li>
+                        <li><a href="{{route('blog')}}">Blog</a></li>
                     </ul>
                 </nav>
             </div>

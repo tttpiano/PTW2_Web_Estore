@@ -15,10 +15,12 @@
 
 
 use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ShopDetailController;
+use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ProductController;
@@ -59,6 +61,10 @@ Route::get('/favourite/add', [FavouriteController::class, 'favouriteAdd'])->name
 Route::get('/favourite/show', [FavouriteController::class, 'FavouriteShow'])->name('favourite.show');
 Route::get('/favourite/{id}', [FavouriteController::class, 'Favouritedelete'])->name('favourite.delete');
 
+Route::get('/blog', [PostController::class, 'getAllBlogs'])->name('blog');
+Route::get('/blog/{url_seo}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/blog/pagin/{id}', [PostController::class, 'pagin_blog'])->name('pagin.blog');
+Route::get('/ajax/blogs', [PostController::class, 'ajaxPaginationBlog'])->name('ajax.blogs');
 
 Route::middleware('admin.login')->group(function () {
 
@@ -68,6 +74,8 @@ Route::middleware('admin.login')->group(function () {
     Route::get('/admin/product/add', [AdminController::class, 'addproduct'])->name('add_product');
     Route::get('/admin/product/edit/{id}', [AdminController::class, 'editproduct'])->name('edit_product');
     Route::put('/admin/product/edit/{id}', [AdminController::class, 'updateproduct'])->name('update.product');
+    Route::get('/searchProduct', [AdminController::class, 'searchProduct'])->name('searchProduct');
+
 
 // brand
     Route::get('/admin/product/brand', [AdminController::class, 'brandproduct'])->name('brand_product');
@@ -111,18 +119,35 @@ Route::middleware('admin.login')->group(function () {
 
 // Route::put('/admin/brand/edit/{id}', [AdminController::class, 'updateBrand'])->name('update.brand');
 
-
-
+    Route::get('/admin/searchUser', [AdminController::class, 'searchUser'])->name('searchUser');
 // QUAN LY USER
 //user
     Route::get('/admin/user', [AdminController::class, 'user'])->name('admin_user');
     Route::get('/admin/user/add', [AdminController::class, 'addpuser'])->name('add_user');
     Route::get('/admin/user/edit/{id}', [AdminController::class, 'edituser'])->name('edit_user');
-//them
+//
     Route::post('/admin/user/insert', [AdminController::class, 'insertUser'])->name('user.add');
 //xoa
     Route::delete('/admin/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('delete.user');
 //sua
     Route::put('/admin/user/edit/{id}', [AdminController::class, 'updateUser'])->name('update.user');
 
+
+
+    ////POST
+      Route::post('/upload/image', [PostController::class, 'upload'])->name('upload.image');
+    Route::get('/admin/post/edit/{id}', [PostController::class, 'postEdit'])->name('post_edit');
+    Route::get('/admin/post/add', [PostController::class, 'postAdd'])->name('post_add');
+    Route::put('/admin/edit/{id}', [PostController::class, 'update'] )->name('post.edit');
+    Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
+    Route::get('/admin/post', [PostController::class, 'index'])->name('admin_post');
+    Route::post('/admin/post/insert', [PostController::class, 'insert'])->name('admin_post_insert');
+    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::get('/admin/post/search', [PostController::class, 'search'])->name('search.post');
+    Route::get('/admin/post/pagin/{id}', [PostController::class, 'pagin_postAdmin'])->name('pagin.post');
+    Route::get('/ajax/posts', [PostController::class, 'ajaxPaginationPostAdmin'])->name('ajax.posts');
+    Route::get('/admin/post/detal', [PostController::class, 'detal'])->name('detal.post');
+
+
+    Route::get('/admin', [WebsiteController::class, 'showVisitsChart'])->name('admin.visits');
 });

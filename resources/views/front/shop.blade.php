@@ -1,7 +1,8 @@
 @extends('front.layouts.master')
 @section('main-container')
     <form action="shop">
-        <section style="height: 330px;" class="breadcrumb-section set-bg" data-setbg="https://cdn.hoanghamobile.com/i/home/Uploads/2023/05/06/web1.jpg">
+        <section style="height: 330px;" class="breadcrumb-section set-bg"
+                 data-setbg="https://cdn.hoanghamobile.com/i/home/Uploads/2023/05/06/web1.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
@@ -131,13 +132,13 @@
                             @foreach($products as $value)
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <img style="object-fit: cover" class="product__item__pic set-bg" src="{{$value->images[0]->url}}">
-                                        <ul class="product__item__pic__hover">
+                                        <div class="product__item__pic set-bg" data-setbg="{{$value->images[0]->url}}">
+                                            <ul class="product__item__pic__hover">
                                                 @guest
                                                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                                 @else
                                                     @if (Auth::check())
-                                                        <li class="favouriteAdd" value="{{$value->id}}"> <a
+                                                        <li class="favouriteAdd" value="{{$value->id}}"><a
                                                                 @if($favorite->where('product_id', $value->id)->where('user_id',auth()->user()->id)->count() > 0)
                                                                     style="background: #7fad39; border-color: #7fad39"
                                                                 @endif

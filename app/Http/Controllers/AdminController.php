@@ -19,18 +19,12 @@ class AdminController
     //     return view('front.admins.index');
     // }
 
-    public function showadmin()
-    {
-        $product = Product::count();
-        $user = User::count();
 
-        return view('front.admins.index', ['product' => $product], ['user' => $user]);
-    }
 
     public function showproduct()
     {
-        $sDetail = Product::orderBy('id', 'desc')->with('brand')->with('ram')->paginate(10);
-        return view('front.admins.product', ['sDetail' => $sDetail]);
+        $product = Product::orderBy('id', 'desc')->with('brand')->with('ram')->paginate(10);
+        return view('front.admins.product', ['sDetail' => $product]);
     }
 
     //------------------------
@@ -144,7 +138,6 @@ class AdminController
             'ramSizeId' => $request->input('ram'),
             'internalMemoryId' => $request->input('internalMemory'),
             'operatingSystemId' => 0,
-
         ];
 
         // Tạo sản phẩm
@@ -442,5 +435,41 @@ class AdminController
         } else {
             return redirect()->back()->with('error', 'user  not found');
         }
+    }
+    public function searchUser(Request $request)
+    {
+        $request->validate([
+            'key' => 'nullable|string|max:500',
+        ]);
+        $key = trim(substr(request()->key, 0, 500));
+        $user = null;
+        if ($key != '') {
+            $user = User::where('name', 'like', "%" . $key . "%")->paginate(9);
+        }
+        return view('front.admins.searchUser', ['user' => $user]);
+    }
+    public function searchProduct(Request $request)
+    {
+        $request->validate([
+            'key' => 'nullable|string|max:500',
+        ]);
+
+        $key = trim(substr(request()->key, 0, 500));
+        $brands = Brand::all();
+        $rams = RamSize::all();
+        $internalMemories = InternalMemory::all();
+        $search = null;
+
+
+        if ($key !== '') {
+            $search = Product::where('products.name', 'like', "%" . $key . "%")->paginate(9);
+        }
+
+        return view('front.admins.searchProduct', [
+            'brands' => $brands,
+            'ramsizes' => $rams,
+            'internalMemories' => $internalMemories,
+            'search' => $search,
+        ]);
     }
 }

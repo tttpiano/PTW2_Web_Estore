@@ -7,14 +7,17 @@
         </a>
     </div>
 
-    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+    <div class="navbar-nav-right  align-items-center" id="navbar-collapse">
         <!-- Search -->
-        <div class="navbar-nav align-items-center" style="width: 100%;">
+        <form action="{{ route('searchProduct') }}" method="get">
             <div class="nav-item d-flex align-items-center" style="width: 100%;">
                 <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="text" class="form-control border-0 shadow-none" id="search_product" placeholder="Search..." aria-label="Search..." style="width: 100%;" />
+                <input type="text" name="key" class="form-control border-0 shadow-none" id="search_product"
+                       placeholder="Search..."
+                       aria-label="Search..." style="width: 100%;"/>
+                <button class="btn btn-outline-secondary" type="submit">Tìm</button>
             </div>
-        </div>
+        </form>
         <!-- /Search -->
 
 

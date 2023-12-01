@@ -117,7 +117,7 @@
                             <!-- Biểu đồ -->
                             <div class="card mb-4">
                                 <div class="card-header" style="color: #fff;font-size: 20px;">
-
+                                    Biểu đồ lượt truy cập theo tháng
                                 </div>
                                 <div class="card-body">
                                     <div id="visitsChart" style="height: 300px;"></div>
@@ -127,7 +127,9 @@
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <div>
-
+                                        @foreach ($years as $year)
+                                            <a href="{{ route('admin.visits', ['year' => $year]) }}" class="btn btn-primary @if ($selectedYear == $year) active @endif">{{ $year }}</a>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -166,6 +168,30 @@
 
         </div>
 
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            // Load thư viện Google Charts
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
 
+            // Vẽ biểu đồ
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable(@json($data));
+
+                var options = {
+                    title: 'Biểu đồ lượt truy cập theo tháng',
+                    legend: { position: 'bottom' },
+                    chartArea: { width: '80%', height: '70%' }, // Điều chỉnh kích thước khu vực biểu đồ
+                    curveType: 'function', // Sử dụng curveType để vẽ đường cong hợp lý
+                    vAxis: { minValue: 1 }, // Điều chỉnh giá trị trục dọc để không bị nhấn quá lề trên
+                    areaOpacity: 0.7, // Điều chỉnh độ mờ của biểu đồ miền
+                    colors: ['#696cff']
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('visitsChart')); // Sử dụng LineChart để vẽ biểu đồ parabol
+                chart.draw(data, options);
+            }
+
+        </script>
 @endsection
 
