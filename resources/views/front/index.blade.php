@@ -263,5 +263,127 @@
             </div>
         </div>
     </section>
+    <style>
+        .sendBtn1 {
+            background-color: green;
+            height: 40px;
+            width: 40px;
+            display: table-cell;
+            align-content: center;
+            border: none;
+            cursor: pointer;
+            float: right;
+        }
 
+        .message1 {
+            display: table-cell;
+            height: 40px;
+            border: none;
+            width: 90%;
+        }
+
+        .form-app-chat {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            border: 1px solid;
+            padding: 5px;
+            width: 350px;
+            visibility: hidden;
+        }
+        .chat-persons{
+            border: 1px solid;
+            height: 300px;
+            width: 406px;
+            margin-bottom: 10px;
+            overflow: scroll;
+            scroll-behavior: auto;
+        }
+        .messageS1 {
+            float: left;
+        }
+        .messageS2{
+            float: right;
+            margin-right: 40px;
+            margin-top: 20px;
+        }
+        .fa {
+            font-size: 18px;
+        }
+        .double-choose{
+            display: flex;
+        }
+        .choose-delete{
+            font-size: 9px;
+            margin-right: 5px;
+        }
+        .choose-modify{
+            font-size: 9px;
+        }
+    </style>
+    <section class="mini-app-chat">
+        <img alt="Chat icon" loading="lazy" decoding="async" onclick="clickChat()" data-nimg="fill" class="_1n5grcp6" style="position:fixed;height:100xp;width:100px;right:0;bottom:0;color:transparent;margin: 30px" src="https://cdn-icons-png.flaticon.com/128/566/566718.png">
+        <div class="form-app-chat">
+            <img src="https://cdn-icons-png.flaticon.com/128/3183/3183327.png" onclick="clickClose()" data-src="https://cdn-icons-png.flaticon.com/128/3183/3183327.png" alt="Arrow " title="Arrow " width="20" height="20" class="lzy lazyload--done" srcset="https://cdn-icons-png.flaticon.com/128/3183/3183327.png 4x">
+            <div class="chat-persons" id="chat-persons">
+                @if(Auth::check())
+                    @foreach($chat as $chats)
+                        @if($chats->user_id == auth()->user()->id && auth()->user()->type == "user")
+                            <div class="messageS1" id="messageS1">You: {{ $chats->chat }}
+                                <div class="double-choose">
+                                    <form action="{{route('delete.chat',$chats->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" style="width: 50%;">Xoá</button>
+                                    </form>
+                                    <a href=""><div class="choose-modify">Sửa</div></a>
+                                </div>
+                            </div><br>
+                        @endif
+                        @foreach($rep as $reps)
+                            @if($reps->user_id == $chats->user_id)
+                                <div class="messageS2" id="messageS2">Admin: {{ $reps->chat }}</div><br>
+                            @endif
+                        @endforeach
+                    @endforeach
+                @endif
+            </div>
+            <form id="chatForm1" action="{{ route('add.chat') }}" method="post">
+                @csrf
+                @if(Auth::check())
+                    <input type="hidden" name="user_id" id="user_id" value="{{Auth()->user()->id}}">
+                @endif
+
+                <script>
+                    // var form1 = document.getElementById("chatForm1");
+                    // var accessMsg1 = document.getElementById('message1');
+                    // var displayMsg1 = document.getElementById('chat-persons');
+                    // var mesValue1 = 'You: ' + accessMsg1.value;
+
+                    // function handleForm(event) {
+                    //     event.preventDefault();
+                    // }
+                    // form1.addEventListener('submit', handleForm);
+
+                    // function sendMessage1() {
+                    //     displayMsg1.innerHTML += '<div class="messageS1" id="messageS1"> You: ' + accessMsg1.value + "</div><br>";
+                    //     scrollToBottom('messageS1');
+                    //     form1.reset();
+                    // }
+
+                    // function scrollToBottom(id) {
+                    //     var div = document.getElementById(id);
+                    //     div.scrollTop = div.scrollHeight - div.clientHeight;
+                    // }
+
+                    function clickChat() {
+                        document.querySelector('.form-app-chat').style.visibility = "visible";
+                        document.querySelector('._1n5grcp6').style.visibility = "hidden";
+                    }
+
+                    function clickClose() {
+                        document.querySelector('.form-app-chat').style.visibility = "hidden";
+                        document.querySelector('._1n5grcp6').style.visibility = "visible";
+                    }
+                </script>
 @endsection

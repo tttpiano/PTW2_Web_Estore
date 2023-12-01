@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\FavouriteItem;
 use App\Models\InternalMemory;
+use App\Models\MiniChat;
+use App\Models\MiniRepChat;
 use App\Models\Product;
 use App\Models\RamSize;
 use Illuminate\Http\Request;
@@ -32,8 +34,8 @@ class ProductController extends Controller
         $ramsize = RamSize::all();
         $rom = InternalMemory::all();
         $favorite = FavouriteItem::all();
-
-
+        $chat = MiniChat::all();
+        $rep = MiniRepChat::all();
         $sort = Product::orderBy('price', 'desc')->take(8)->get();
         $latestProducts = Product::orderBy('id', 'desc')->take(3)->get();
         $latestProducts2 = Product::orderBy('id', 'desc')->skip(3)->take(3)->get();
@@ -42,10 +44,8 @@ class ProductController extends Controller
         return view('front.index', ['product' => $product, 'sort' => $sort,
             'latestProducts' => $latestProducts, 'latestProducts2' => $latestProducts2,
             'top' => $top, 'top2' => $top2, 'brands'=> $brands,'ram'=>$ramsize,'rom'=>$rom,
-            'favorite' => $favorite
+            'favorite' => $favorite,'chat' => $chat, 'rep' => $rep
         ]);
-
-
     }
 
     public function searchLq(Request $request)
@@ -85,6 +85,30 @@ class ProductController extends Controller
 
         return response($output);
 
+    }
+    public function deleteChat($id)
+    {
+        $mini = MiniChat::find($id);
+        if ($mini) {
+            $mini->delete();
+            return redirect()->back()->with('success', 'chat deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'chat not found');
+        }
+    }
+
+    public function addChat(Request $request)
+    {
+        try {
+            $user = User::all();
+            MiniChat::create([
+                'user_id' => $request->input('user_id'),
+                'chat' => $request->input('chat')
+            ]);
+            return redirect()->back()->with('success', 'chat added successfully');
+        } catch (QueryException $e) {
+            return redirect()->back()->with('error', 'Failed to add chat. ' . $e->getMessage());
+        }
     }
 
 }
