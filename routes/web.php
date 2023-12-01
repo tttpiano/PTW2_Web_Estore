@@ -66,6 +66,8 @@ Route::get('/blog/{url_seo}', [PostController::class, 'show'])->name('posts.show
 Route::get('/blog/pagin/{id}', [PostController::class, 'pagin_blog'])->name('pagin.blog');
 Route::get('/ajax/blogs', [PostController::class, 'ajaxPaginationBlog'])->name('ajax.blogs');
 
+
+Route::get('/products/keywords1', [ProductController::class, 'searchLq'])->name('searchlq');
 Route::middleware('admin.login')->group(function () {
 
 /////////////////// admin /////////////////////
@@ -147,6 +149,8 @@ Route::middleware('admin.login')->group(function () {
     Route::get('/admin/post/pagin/{id}', [PostController::class, 'pagin_postAdmin'])->name('pagin.post');
     Route::get('/ajax/posts', [PostController::class, 'ajaxPaginationPostAdmin'])->name('ajax.posts');
     Route::get('/admin/post/detal', [PostController::class, 'detal'])->name('detal.post');
+    Route::get('/admin/post/detal', [AdminController::class, 'detal'])->name('detal.product');
+
 
 
     Route::get('/admin', [WebsiteController::class, 'showVisitsChart'])->name('admin.visits');

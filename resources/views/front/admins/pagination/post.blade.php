@@ -138,7 +138,7 @@
         $.ajax(
             {
                 type: 'get',
-                url: '{{route("detal.post")}}',
+                url: '{{route("detal.product")}}',
                 data: {
                     _token: '{{ csrf_token() }}',
                     id: productId,
