@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Brand;
+use App\Models\FavouriteItem;
 use App\Models\InternalMemory;
 use App\Models\Product;
 use App\Models\RamSize;
@@ -16,6 +17,7 @@ class ShopController extends Controller
     public function show(Request $request)
     {
         //
+        $favorite = FavouriteItem::all();
         $minamount = $request->minamount;
         $maxamount = $request->maxamount;
 
@@ -71,7 +73,7 @@ class ShopController extends Controller
         $rams = RamSize::all();
         $internalMemories = InternalMemory::all();
         $products->appends(['sort' => 'asc']);
-        return view('front.shop', ['products' => $products, 'brands' => $brands, 'ramsizes' => $rams, 'internalMemories' => $internalMemories]);
+        return view('front.shop', ['products' => $products, 'brands' => $brands, 'ramsizes' => $rams, 'internalMemories' => $internalMemories,'favorite' => $favorite]);
 
 
     }

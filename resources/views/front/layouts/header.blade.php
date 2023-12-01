@@ -7,7 +7,7 @@
 <div class="humberger__menu__overlay"></div>
 <div class="humberger__menu__wrapper">
     <div class="humberger__menu__logo">
-        <a href="#"><img src="{{assert("storage/img/logo.png")}}" alt=""></a>
+{{--        <a href="#"><img src="{{assert("storage/img/logo.png")}}" alt=""></a>--}}
     </div>
     <div class="humberger__menu__cart">
         <ul>
@@ -18,7 +18,7 @@
     </div>
     <div class="humberger__menu__widget">
         <div class="header__top__right__language">
-            <img src="{{assert("storage/img/language.png")}}" alt="">
+
             <div>English</div>
             <span class="arrow_carrot-down"></span>
             <ul>
@@ -76,7 +76,6 @@
                             @else
                                 @if (Auth::check())
                                     <li><i class="fa fa-envelope"></i>{{ auth()->user()->email }} </li>
-                                    <li>Free Shipping for all Order of $99</li>
                                 @endif
                             @endguest
                         </ul>
@@ -91,7 +90,6 @@
                             <a href="#"><i class="fa fa-pinterest-p"></i></a>
                         </div>
                         <div class="header__top__right__language">
-                            <img src="{{assert("storage/img/language.png")}}" alt="">
                             <div>English</div>
                             <span class="arrow_carrot-down"></span>
                             <ul>
@@ -107,6 +105,9 @@
                                     <div style="display: flex; list-style: none">
                                         <li style="color:#1c7430; margin-right: 20px" >{{ auth()->user()->name }}</li>
                                         <li><a href="{{ route('signout') }}"><i class="fa fa-user-o" style="color:#d12e00f0 !important"></i>Logout</a></li>
+                                        @if(auth()->user()->type == "admin")
+                                            <li style="margin-left: 20px"><a href="/admin"><i class="fa-solid fa-bars-progress"></i>Quản Lý Trang</a></li>
+                                        @endif
                                     </div>
                                 @endif
                             @endguest
@@ -133,10 +134,12 @@
                         <li class="active"><a href="{{route('home')}}">Home</a></li>
                         <li><a href="{{ route('shop') }}">Shop</a></li>
                         <li><a href="{{route('introduce')}}">Introduce</a>
-                            
+
                         </li>
 
                         <li><a href="{{route('contact')}}">Contact</a></li>
+                        <li><a href="{{route('blog')}}">Blog</a></li>
+                        <li><a href="/history">History</a></li>
                     </ul>
                 </nav>
             </div>
@@ -151,7 +154,7 @@
                     @else
                         @if (Auth::check())
                             <ul>
-                                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                                <li><a href="{{route('favourite.show')}}"><i class="fa fa-heart"></i> <span>{{session('count_favourite') }}</span></a></li>
                                 <li><a href="{{route('cart.show')}}"><i class="fa fa-shopping-bag"></i> <span>{{session('countProducts') }}</span></a></li>
                             </ul>
                             <div class="header__cart__price">item: <span>{{ number_format(session('total')) }}đ</span></div>
@@ -188,22 +191,19 @@
                 </div>
             </div>
             <div class="col-lg-9">
-                <div class="hero__search">
+                <div >
                     <div class="hero__search__form">
                         <form action="{{route('search')}}" method="GET">
-                            <input value="{{ request('key') }}" type="text" name="key" placeholder="What do yo u need?" required>
+
+                            <input style="width: 82%;" value="{{ request('key') }}" type="text"  id="search1" name="key" placeholder="What do yo u need?" required>
                             <button type="submit" class="site-btn">SEARCH</button>
                         </form>
+                        <div class="searchdata" id="Content" style="display:none;border: 1px solid #ccc;border-radius: 5px;padding: 15px;position: absolute; z-index: 9999;background: #fff;width: 100%;">
                     </div>
-                    <div class="hero__search__phone">
-                        <div class="hero__search__phone__icon">
-                            <i class="fa fa-phone"></i>
-                        </div>
-                        <div class="hero__search__phone__text">
-                            <h5>+84 34.897.1008</h5>
-                            <span>support 24/7 time</span>
-                        </div>
-                    </div>
+                    @if ($errors->has('key'))
+                        <span style="position: absolute;top: 55px;left: 18px;" class="text-danger">{{ $errors->first('key') }}</span>
+                    @endif
+
                 </div>
             </div>
         </div>
@@ -229,4 +229,47 @@
         });
 
     </script>
+    <script src="{{asset('storage/js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{asset('storage/assets/vendor/libs/jquery/jquery.js')}}"></script>
+    <script>
+        function debounce(func, delayTime) {
+            let timer;
+
+            return function() {
+                clearTimeout(timer);
+                timer = setTimeout(func, delayTime);
+            };
+        }
+
+        $(document).ready(function() {
+            const delayTime = 500;
+            const delayedSearch = debounce(function() {
+                const inputValue = $('#search1').val();
+                if (inputValue) {
+                    $('.searchdata').css('display', 'block');
+                } else {
+                    $('.searchdata').css('display', 'none');
+                }
+
+                console.log(inputValue);
+                $.ajax({
+                    type: 'get',
+                    url: '{{route("searchlq")}}',
+                    data: {
+                        'search': inputValue
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $('#Content').html(data);
+                    }
+                });
+            }, delayTime);
+            $('#search1').on('input', function() {
+                delayedSearch();
+            });
+
+        });
+    </script>
+
+
 </section>

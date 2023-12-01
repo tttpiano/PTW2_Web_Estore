@@ -1,7 +1,8 @@
 @extends('front.layouts.master')
 @section('main-container')
     <form action="shop">
-        <section style="height: 330px;" class="breadcrumb-section set-bg" data-setbg="https://cdn.hoanghamobile.com/i/home/Uploads/2023/05/06/web1.jpg">
+        <section style="height: 330px;" class="breadcrumb-section set-bg"
+                 data-setbg="https://cdn.hoanghamobile.com/i/home/Uploads/2023/05/06/web1.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
@@ -133,14 +134,28 @@
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg" data-setbg="{{$value->images[0]->url}}">
                                             <ul class="product__item__pic__hover">
-                                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                                @guest
+                                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                                @else
+                                                    @if (Auth::check())
+                                                        <li class="favouriteAdd" value="{{$value->id}}"><a
+                                                                @if($favorite->where('product_id', $value->id)->where('user_id',auth()->user()->id)->count() > 0)
+                                                                    style="background: #7fad39; border-color: #7fad39"
+                                                                @endif
+                                                                href=""
+                                                            >
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endguest
                                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                                 <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
                                             <h6>
-                                                <a href="{{ route('shopId', ['id' => $value->id]) }}">{{$value->name}}</a>
+                                                <a href="{{ route('shopId', ['id' => encrypt($value->id), 'product' => Str::slug($value->name)]) }}">{{$value->name}}</a>
                                             </h6>
                                             <h5>{{ number_format($value->price, 0)}}</h5>
                                         </div>
