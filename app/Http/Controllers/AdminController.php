@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\OpenratingSystems;
 use App\Models\Post;
+use App\Models\Voucher;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\QueryException;
 use App\Models\Brand;
@@ -640,6 +641,76 @@ class AdminController
     public function slide_delete($id) {
         DB::table('slide')->where(['id' => $id])->delete();
         return redirect('/admin/slide')->with('success', 'Xóa thành công');
+    }
+    // show voucher
+    public function showvoucher()
+    {
+        //note
+        $voucher = Voucher::orderBy('id', 'desc')->paginate(5);
+        return view('front.admins.voucher', ['voucher' => $voucher]);
+    }
+
+
+    public function storeVoucher(Request $request)
+    {
+        if ($request->hasFile('fileUpload')) {
+            $originName = $request->file('fileUpload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('fileUpload')->getClientOriginalExtension();
+            $fileName = $fileName . '.' . $extension;
+            // Public Folder
+            $request->file('fileUpload')->move(public_path('storage/img/'), $fileName);
+            $request->session()->put('fileName1', $fileName);
+
+            return back()->with('success', 'Image uploaded Successfully!')
+                ->with('images', $fileName);
+
+
+        }
+
+    }
+    public function editVoucher($id)
+    {
+        $Voucher = InternalMemory::find($id);
+        return view('front.admins.Voucher_edit', ['edit_Voucher' => $Voucher]);
+    }
+
+
+
+    public function add_voucher(Request $request)
+    {
+
+        return view('front.admins.voucher_add');
+
+    }
+    public function voucher_insert(Request $request) {
+        $request->validate([
+            'ten_voucher' => 'required|string',
+            'ma_voucher' => 'required|string',
+            'giam_voucher' => 'required|numeric',
+
+        ]);
+
+
+        $voucher = new Voucher();
+        $voucher->ten_voucher = $request->input('ten_voucher');
+        $voucher->ma_voucher = $request->input('ma_voucher');
+        $voucher->giam_voucher = $request->input('giam_voucher');
+
+        $voucher->save();
+
+        return redirect()->route('voucher')->with('success', 'Voucher added successfully.');
+    }
+    public function deletevoucher($id)
+    {
+        $voucher = Voucher::find($id);
+
+        if ($voucher) {
+            $voucher->delete();
+            return redirect()->back()->with('success', 'Ram deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'Ram not found');
+        }
     }
 
 }

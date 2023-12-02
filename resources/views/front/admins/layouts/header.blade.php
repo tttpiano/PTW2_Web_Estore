@@ -55,6 +55,7 @@
                         <div data-i18n="Horizontal Form">Hệ Điều Hành</div>
                     </a>
                 </li>
+
             </ul>
           </li>
           <!-- Tables -->
@@ -82,6 +83,12 @@
                 <a href="{{route('admin_slide')}}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-table"></i>
                     <div data-i18n="Tables">Slide</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{route('voucher')}}" class="menu-link">
+                    <i class="menu-icon fa fa-ticket"></i>
+                    <div data-i18n="Tables">Quản lý voucher</div>
                 </a>
             </li>
         </ul>

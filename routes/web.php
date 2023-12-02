@@ -1,7 +1,6 @@
 <?php
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +27,7 @@ use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+
 // thanh toan---------------------------------------------------------------
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/checkout/proceed', [CheckoutController::class, 'proceed'])->name('checkout.proceed');
@@ -71,7 +71,6 @@ Route::get('', [ProductController::class, 'showProduct'])->name('home');
 Route::get('/shop', [ShopController::class, 'show'])->name('shop');
 Route::get('/search', [SearchProductController::class, 'search'])->name('search');
 Route::get('/shopdetail/{product}&code={id}', [ShopDetailController::class, 'showId'])->name('shopId');
-
 
 
 Route::post('/cart/add', [CartController::class, 'addCart'])->name('cart.add');
@@ -120,7 +119,6 @@ Route::middleware('admin.login')->group(function () {
     Route::post('/admin/upload', [AdminController::class, 'storeImage'])->name('img.upload');
 
 
-
 //admin
 // thêm xóa sửa Brand
 
@@ -157,12 +155,11 @@ Route::middleware('admin.login')->group(function () {
     Route::put('/admin/user/edit/{id}', [AdminController::class, 'updateUser'])->name('update.user');
 
 
-
     ////POST
-      Route::post('/upload/image', [PostController::class, 'upload'])->name('upload.image');
+    Route::post('/upload/image', [PostController::class, 'upload'])->name('upload.image');
     Route::get('/admin/post/edit/{id}', [PostController::class, 'postEdit'])->name('post_edit');
     Route::get('/admin/post/add', [PostController::class, 'postAdd'])->name('post_add');
-    Route::put('/admin/edit/{id}', [PostController::class, 'update'] )->name('post.edit');
+    Route::put('/admin/edit/{id}', [PostController::class, 'update'])->name('post.edit');
     Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::get('/admin/post', [PostController::class, 'index'])->name('admin_post');
     Route::post('/admin/post/insert', [PostController::class, 'insert'])->name('admin_post_insert');
@@ -186,7 +183,16 @@ Route::middleware('admin.login')->group(function () {
     Route::get('/admin/slide/add', [AdminController::class, 'slide_add'])->name('slide_add');
     Route::post('/admin/slide/insert', [AdminController::class, 'slide_insert'])->name('slide_insert');
     Route::get('/admin/slide/edit/{id}', [AdminController::class, 'slide_edit'])->name('slide_edit');
-    Route::post('/admin/slide/{id}', [AdminController::class, 'slide_update'] )->name('slide.edit');
+    Route::post('/admin/slide/{id}', [AdminController::class, 'slide_update'])->name('slide.edit');
     Route::get('/admin/slide/delete/{id}', [AdminController::class, 'slide_delete'])->name('slide_delete');
 
+    //voucher
+//show
+    Route::get('/admin/voucher', [AdminController::class, 'showvoucher'])->name('voucher');
+
+    Route::get('/admin/voucher/addvoucher', [AdminController::class, 'add_voucher'])->name('add_voucher');
+    Route::post('/admin/voucher/insertvoucher', [AdminController::class, 'voucher_insert'])->name('voucher_insert');
+    Route::get('/admin/voucher/editvoucher/{id}', [AdminController::class, 'editvoucher'])->name('edit_voucher');
+    Route::post('/admin/uploadvoucher{id}', [AdminController::class, 'storevoucher'])->name('voucher.upload');
+    Route::delete('/admin/voucher/delete/{id}', [AdminController::class, 'deletevoucher'])->name('delete.voucher');
 });
